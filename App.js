@@ -13,15 +13,16 @@ import {
   Text,
   StatusBar,
   ImageBackground,
-  TextInput,
   TouchableOpacity,
   Animated,
   Dimensions,
   ScrollView,
   SafeAreaView,
   KeyboardAvoidingView,
-  Platform
+  Platform,
+  TextInput
 } from 'react-native';
+import Input from './src/Components/Forms/Input';
 import { TypingAnimation } from 'react-native-typing-animation'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
@@ -54,15 +55,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   action: {
+    flex: 1,
     flexDirection: 'row',
     borderBottomWidth: 1,
-    borderBottomColor: '#f2f2f2'
+    borderBottomColor: '#f2f2f2',
   },
   textInput: {
-    flex: 1,
     marginTop: 5,
     paddingBottom: 5,
-    color: '#212121'
+    color: '#212121',
+  },
+  typing: {
+    flexDirection: 'row',
+    flex: 1,
+    // marginRight: 50,
+    marginTop: 40
   },
   buttonContainer: {
     alignItems: 'center',
@@ -100,11 +107,15 @@ export default class App extends Component {
       enable: true,
       signUp: false,
       signIn: true,
-      login: false
+      login: false,
+      email:'',
+      password:'',
+      phoneNumber:''
     }
   }
 
   focus = (value) => {
+    console.warn('value', value)
     if(value === 'email' ) {
       this.setState({
         typingEmail: true,
@@ -146,7 +157,7 @@ export default class App extends Component {
     return (
       <TypingAnimation
         dotColor='#93278f'
-        style={{ marginRight: 25}}
+        style={styles.typing}
       />
     )
   }
@@ -155,11 +166,14 @@ export default class App extends Component {
     this.setState({ 
       signIn: !signIn,
       signUp: !signUp,
-      enable: true
+      enable: true,
+      typingEmail: false,
+      typingPassword:false,
+      typingPhoneNumber: false,
     })
   }
   render(){
-    const { animationSignIn, animationSignUp, typingEmail, typingPassword, typingPhoneNumber,enable, signIn, signUp, login } = this.state;
+    const { animationSignIn, animationSignUp, typingEmail, typingPassword, typingPhoneNumber,enable, signIn, signUp, login, email, password, phoneNumber } = this.state;
     const width = login && enable ? animationSignUp : signIn ? animationSignIn : animationSignUp ;
   return (
     <KeyboardAvoidingView 
@@ -182,27 +196,30 @@ export default class App extends Component {
         <View style={styles.footer}>
         {signIn ? (
           <>
-          <Text style={[styles.title, { marginTop: 50 }]}>E-mail</Text>
           <View style={styles.action}>
-            <TextInput
+            <Input
+              label='E-mail'
+              labelStyle={styles.title}
+              value={email}
+              onChange={(email) => this.setState({ email})}
               placeholder='your email...'
               placeholderTextColor='#cccccc'
               keyboardType='email-address'
-              style={styles.textInput}
-              onFocus={() => this.focus('email')}
-              />
-              { typingEmail ? this.typing() : null}
+              onFocusInput={() => this.focus('email')}
+              TextInputStyle={styles.textInput}
+            />
+            { typingEmail ? this.typing() : null}
           </View>
-          <Text style={[styles.title, { marginTop: 20}]}>
-            Password
-          </Text>
           <View style={styles.action}>
-            <TextInput 
+            <Input 
+              label='Password'
+              labelStyle={styles.title}
               secureTextEntry
               placeholder='your password...'
+              onChange={(password) => this.setState({ password})}
               placeholderTextColor='#cccccc'
-              style={styles.textInput}
-              onFocus={() => this.focus('password')}
+              TextInputStyle={styles.textInput}
+              onFocusInput={() => this.focus('password')}
             />
             { typingPassword ? this.typing() : null}
             
@@ -234,40 +251,42 @@ export default class App extends Component {
           </>
           ): (
             <>
-          <Text style={[styles.title, { marginTop: 50 }]}>E-mail</Text>
           <View style={styles.action}>
-            <TextInput
+            <Input
+              label='E-mail'
+              labelStyle={styles.title}
               placeholder='your email...'
               placeholderTextColor='#cccccc'
               keyboardType='email-address'
-              style={styles.textInput}
-              onFocus={() => this.focus('email')}
+              onFocusInput={() => this.focus('email')}
+              onChange={(email) => this.setState({ email})}
+              TextInputStyle={styles.textInput}
               />
               { typingEmail ? this.typing() : null}
           </View>
-          <Text style={[styles.title, { marginTop: 20}]}>
-            Password
-          </Text>
           <View style={styles.action}>
-            <TextInput 
-              secureTextEntry
+            <Input 
+              label='Password'
+              labelStyle={styles.title}
               placeholder='your password...'
               placeholderTextColor='#cccccc'
-              style={styles.textInput}
-              onFocus={() => this.focus('password')}
+              secureTextEntry
+              onFocusInput={() => this.focus('password')}
+              onChange={(password) => this.setState({ password})}
+              TextInputStyle={styles.textInput}
             />
             { typingPassword ? this.typing() : null}
           </View>
-          <Text style={[styles.title, { marginTop: 20}]}>
-            Phone number
-          </Text>
           <View style={styles.action}>
-            <TextInput 
-              keyboardType='phone-pad'
+            <Input
+              label='Phone Number'
+              labelStyle={styles.title}
               placeholder='your phone number...'
               placeholderTextColor='#cccccc'
-              style={styles.textInput}
+              keyboardType='phone-pad'
               onFocus={() => this.focus('phoneNumber')}
+              onChange={(phoneNumber) => this.setState({ phoneNumber})}
+              TextInputStyle={styles.textInput}
             />
             { typingPhoneNumber ? this.typing() : null}
           </View>
