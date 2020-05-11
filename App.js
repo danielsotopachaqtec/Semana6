@@ -17,12 +17,11 @@ import {
   Animated,
   Dimensions,
   ScrollView,
-  SafeAreaView,
   KeyboardAvoidingView,
-  Platform,
-  TextInput
+  Platform
 } from 'react-native';
 import Input from './src/Components/Forms/Input';
+import Button from './src/Components/Forms/Button'
 import { TypingAnimation } from 'react-native-typing-animation'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
@@ -110,7 +109,41 @@ export default class App extends Component {
       login: false,
       email:'',
       password:'',
-      phoneNumber:''
+      phoneNumber:'',
+      disabled: true,
+      disabledButton: true
+    }
+  }
+  onChangeText = (value, type) => {
+    if(type === 'email'){
+      if(this.inputEmail.state.validate) {
+        this.setState({
+          disabled: false
+        })
+      }
+      this.setState({ 
+        email: this.inputEmail.state.value
+      })
+    }
+    if(type === 'password') {
+      this.setState({
+        password: this.inputPassword.state.value
+      })
+    }
+    if(type === 'phoneNumber') {
+      this.setState({
+        phoneNumber: this.inputPhoneNumber.state.value
+      })
+    }
+    if(this.state.signIn && this.inputEmail.state.validate && this.inputPassword.state.validate){
+      this.setState({
+        disabledButton: false
+      })
+    }
+    if(this.state.signUp && this.inputEmail.state.validate && this.inputPassword.state.validate && this.inputPhoneNumber.state.validate) {
+      this.setState({
+        disabledButton: false
+      })
     }
   }
 
@@ -122,13 +155,15 @@ export default class App extends Component {
         typingPassword: false,
         typingPhoneNumber: false
       })
-    } else if (value === 'password') {
+    }
+    if (value === 'password') {
       this.setState({
         typingEmail: false,
         typingPassword: true,
         typingPhoneNumber: false
       })
-    } else {
+    }
+    if (value === 'phoneNumber') {
       this.setState({
         typingEmail: false,
         typingPassword: false,
@@ -170,10 +205,11 @@ export default class App extends Component {
       typingEmail: false,
       typingPassword:false,
       typingPhoneNumber: false,
+      disabledButton: true
     })
   }
   render(){
-    const { animationSignIn, animationSignUp, typingEmail, typingPassword, typingPhoneNumber,enable, signIn, signUp, login, email, password, phoneNumber } = this.state;
+    const { animationSignIn, animationSignUp, typingEmail, typingPassword, typingPhoneNumber,enable, signIn, signUp, login, email, password, phoneNumber, disabled, disabledButton } = this.state;
     const width = login && enable ? animationSignUp : signIn ? animationSignIn : animationSignUp ;
   return (
     <KeyboardAvoidingView 
@@ -201,12 +237,14 @@ export default class App extends Component {
               label='E-mail'
               labelStyle={styles.title}
               value={email}
-              onChange={(email) => this.setState({ email})}
+              ref={(ref) => this.inputEmail = ref}
+              type='email'
               placeholder='your email...'
               placeholderTextColor='#cccccc'
-              keyboardType='email-address'
-              onFocusInput={() => this.focus('email')}
               TextInputStyle={styles.textInput}
+              keyboardType='email-address'
+              onChange={(value) => this.onChangeText(value, 'email')}
+              onFocusInput={() => this.focus('email')}
             />
             { typingEmail ? this.typing() : null}
           </View>
@@ -214,12 +252,16 @@ export default class App extends Component {
             <Input 
               label='Password'
               labelStyle={styles.title}
+              value={password}
+              ref={(ref) => this.inputPassword = ref}
+              type='password'
               secureTextEntry
               placeholder='your password...'
-              onChange={(password) => this.setState({ password})}
               placeholderTextColor='#cccccc'
               TextInputStyle={styles.textInput}
+              onChange={(value) => this.onChangeText(value, 'password')}
               onFocusInput={() => this.focus('password')}
+              editable={disabled}
             />
             { typingPassword ? this.typing() : null}
             
@@ -253,27 +295,34 @@ export default class App extends Component {
             <>
           <View style={styles.action}>
             <Input
-              label='E-mail'
-              labelStyle={styles.title}
-              placeholder='your email...'
-              placeholderTextColor='#cccccc'
-              keyboardType='email-address'
-              onFocusInput={() => this.focus('email')}
-              onChange={(email) => this.setState({ email})}
-              TextInputStyle={styles.textInput}
+                label='E-mail'
+                labelStyle={styles.title}
+                value={email}
+                ref={(ref) => this.inputEmail = ref}
+                type='email'
+                placeholder='your email...'
+                placeholderTextColor='#cccccc'
+                TextInputStyle={styles.textInput}
+                keyboardType='email-address'
+                onChange={(value) => this.onChangeText(value, 'email')}
+                onFocusInput={() => this.focus('email')}
               />
               { typingEmail ? this.typing() : null}
           </View>
           <View style={styles.action}>
-            <Input 
+          <Input 
               label='Password'
               labelStyle={styles.title}
+              value={password}
+              ref={(ref) => this.inputPassword = ref}
+              type='password'
+              secureTextEntry
               placeholder='your password...'
               placeholderTextColor='#cccccc'
-              secureTextEntry
-              onFocusInput={() => this.focus('password')}
-              onChange={(password) => this.setState({ password})}
               TextInputStyle={styles.textInput}
+              onChange={(value) => this.onChangeText(value, 'password')}
+              onFocusInput={() => this.focus('password')}
+              editable={disabled}
             />
             { typingPassword ? this.typing() : null}
           </View>
@@ -281,28 +330,30 @@ export default class App extends Component {
             <Input
               label='Phone Number'
               labelStyle={styles.title}
+              value={phoneNumber}
+              ref={(ref) => this.inputPhoneNumber = ref}
+              type='phoneNumber'
               placeholder='your phone number...'
               placeholderTextColor='#cccccc'
               keyboardType='phone-pad'
-              onFocus={() => this.focus('phoneNumber')}
-              onChange={(phoneNumber) => this.setState({ phoneNumber})}
+              onFocusInput={() => this.focus('phoneNumber')}
+              onChange={(value) => this.onChangeText(value, 'phoneNumber')}
               TextInputStyle={styles.textInput}
+              editable={disabled}
+              maxLength={9}
             />
             { typingPhoneNumber ? this.typing() : null}
           </View>
-          <TouchableOpacity
-          onPress={() => {
-            this.setState({
+          <Button 
+            onPressButton={() => this.setState({
               signUp: false,
               signIn: true
-            })
-            }}>
-            <View style={[styles.buttonContainer, styles.animation]}>
-                <Text style={styles.textLogin}>
-                  Sign up
-                </Text>
-            </View>
-          </TouchableOpacity>
+            })}
+            styleButton={[styles.buttonContainer, styles.animation]}
+            styleText={styles.textLogin}
+            title='Sign up'
+            disabled={disabledButton}
+          />
           </>
           )}
         <View style={styles.signUp}>
