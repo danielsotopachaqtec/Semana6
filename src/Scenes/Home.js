@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, Image, ScrollView, ImageBackground, StatusBar, StyleSheet, FlatList, SafeAreaView } from 'react-native'
+import remoteConfig from '@react-native-firebase/remote-config';
 import { Post } from '../Components/Post'
 const styles = StyleSheet.create({
     container: {
@@ -26,12 +27,22 @@ export default class Home extends Component {
         super(props);
         this.state = {
             postList: '',
-            isFetching: false
+            isFetching: false,
+            data: []
         }
     }
-    componentDidMount(){
-        this.getPost()
-
+    async componentDidMount(){
+        console.warn('this.state.data', this.state.data)
+        this.getPost();
+        const parameters = remoteConfig().getAll();
+        const data = {}
+        Object.keys(parameters).forEach((key) => {
+            data[key] = parameters[key].value
+        })
+        this.setState({
+            data: data
+        })
+        console.warn('data', data)
     }
     getPost = () => {
         const { postList } = this.state;

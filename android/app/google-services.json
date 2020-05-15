@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "568472974316",
+    "firebase_url": "https://apppachaqtec.firebaseio.com",
+    "project_id": "apppachaqtec",
+    "storage_bucket": "apppachaqtec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:568472974316:android:148d03870062349dd2c6c9",
+        "android_client_info": {
+          "package_name": "com.semana6"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "568472974316-rb3kdncplgusqied9slurennnneipo6b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYU-O4_dC7uWZTjJ8Q6oeWRUsWAtrJ0SQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "568472974316-rb3kdncplgusqied9slurennnneipo6b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
