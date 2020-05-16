@@ -57,6 +57,7 @@
 		2D02E47B1E0B4A5D006451C7 /* Semana6-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Semana6-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* Semana6-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Semana6-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DC5361E3344F939C5DAD695 /* Pods-Semana6-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Semana6-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Semana6-tvOS/Pods-Semana6-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		3F1C56C5246F668E002F328B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3F2E27A4246E174A00B29471 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8ABBD441908D82FEAF2EDD4B /* libPods-Semana6-Semana6Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Semana6-Semana6Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F16B85ACFF3595CF8A8304E /* libPods-Semana6.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Semana6.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -162,6 +163,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				3F1C56C5246F668E002F328B /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* Semana6 */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* Semana6Tests */,
