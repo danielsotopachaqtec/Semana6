@@ -10,7 +10,7 @@ const unsplash = new Unsplash({
   accessKey: "OXxouhWwb4J81e_NVoaS5uqX-NTihadxGWFy8dAOMxA",
   // Optionally you can also configure a custom header to be sent with every request
   // Optionally if using a node-fetch polyfill or a version of fetch which supports the timeout option, you can configure the request timeout for all requests
-  timeout: 500 // values set in ms
+  timeout: 100 // values set in ms
 });
 const styles = StyleSheet.create({
     container: {
@@ -36,14 +36,23 @@ export default class Home extends Component {
     constructor(props){
         super(props);
         this.state = {
-            postList: '',
+            postList: [
+                {id: 1, title: 'Splash 1', image: require('../../assets/slider1.jpeg'), title: 'Step 1'},
+                {id: 2, title: 'Splash 2', image: require('../../assets/slider2.jpeg'), title: 'Step 2'},
+                {id: 3, title: 'Splash 3', image: require('../../assets/slider3.jpeg'), title: 'Step 3'},
+                {id: 4, title: 'Splash 4', image: require('../../assets/slider4.jpeg'), title: 'Step 4'},
+                {id: 5, title: 'Splash 5', image: require('../../assets/slider5.jpeg'), title: 'Step 5'},
+                {id: 6, title: 'Splash 6', image: require('../../assets/slider6.jpeg'), title: 'Step 6'},
+            ],
             isFetching: false,
-            data: []
+            data: [],
+            images: []
         }
     }
     async componentDidMount(){
         console.warn('this.state.data', this.state.data)
-        // this.getPost();
+        // await this.getImages();
+        // await this.getPost();
         
         // const parameters = remoteConfig().getAll();
         // console.warn('parameters', parameters)
@@ -55,6 +64,9 @@ export default class Home extends Component {
         //     data: data
         // })
         // console.warn('data', data)
+        
+    }
+    getImages = async () => {
         unsplash.photos.getRandomPhoto({ count: "10" })
         .then((res)=> {
             console.warn('res', res)
@@ -62,21 +74,38 @@ export default class Home extends Component {
         })
         .then(json => {
             console.warn('json', json)
+            const imagesJson = json.map((item) => {
+                 return item.urls
+            })
+            this.setState({images: imagesJson})
+            console.warn('imagesJson', imagesJson)
         })
         .catch((error)=> console.warn('error', error))
-        
     }
-    getPost = () => {
-        const { postList } = this.state;
-        fetch('https://jsonplaceholder.typicode.com/photos')
+    getPost = async () => {
+        const { postList, images } = this.state;
+        fetch('https://jsonplaceholder.typicode.com/posts')
             .then((res)=> {
                 return res.json();
             })
             .catch((error)=> console.warn('error', error))
-            .then((res)=> this.setState({
-                postList: res,
-                isFetching: false
-            }))
+            .then((res)=> {
+                console.warn('res postList', res)
+                console.warn('images', images)
+                // const imgFull = images.map((ele) => {
+                //     console.warn('ele', ele);
+                //     return ele.full
+                // })
+                // console.warn('imgFull', imgFull)
+                // const post = res.map((item) => {
+                //     return item['urls'].push()
+                // })
+
+                this.setState({
+                    postList: res,
+                    isFetching: false
+                })
+            })
     }
     onRefresh = async() => {
         this.setState({
@@ -85,7 +114,7 @@ export default class Home extends Component {
        await this.getPost()
     }
     render(){
-        const { postList, isFetching } = this.state;
+        const { postList, isFetching, images } = this.state;
         console.warn('isFetching', isFetching)
         return(
             <View style={styles.container}>
@@ -94,7 +123,7 @@ export default class Home extends Component {
                     <FlatList
                     data={postList}
                     renderItem={({item}) => (
-                        <Post title={item.title} url={{uri: item.url}}/>
+                        <Post title={item.title} url={item.image}/>
                     )}
                     keyExtractor={item => item.id}
                     removeClippedSubviews={true}
