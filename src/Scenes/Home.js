@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Dimensions ,Text, Image, ScrollView, ImageBackground, StatusBar, StyleSheet, FlatList, SafeAreaView } from 'react-native'
+import { View, Dimensions ,Text, Image, ScrollView, ImageBackground, StatusBar, StyleSheet, FlatList, SafeAreaView, BackHandler } from 'react-native'
 import firebase from '@react-native-firebase/app'
 import remoteConfig from '@react-native-firebase/remote-config';
 import { Post } from '../Components/Post'
@@ -54,26 +54,34 @@ export default class Home extends Component {
         this.state = {
             postList: '',
             isFetching: false,
-            data: [],
+            data: '',
             images: [],
-            isVisible: false
+            isVisible: false,
+            maintenance: false
         }
     }
     async componentDidMount(){
-        console.warn('this.state.data', this.state.data)
-        await this.getImages();
-        
-        // const parameters = remoteConfig().getAll();
-        // console.warn('parameters', parameters)
-        // const data = {}
-        // Object.entries(parameters).forEach(([key, parameter]) => {
-        //     data[key] = parameters[key].value
-        // });
-        // this.setState({
-        //     data: data
-        // })
-        // console.warn('data', data)
-        
+        try{
+            const parameters = await remoteConfig().getAll();
+            console.warn('parameters', parameters)
+            const data = {}
+            Object.entries(parameters).forEach(([key, parameter]) => {
+                data[key] = parameters[key].value
+            });
+            this.setState({
+                data: data
+            })
+            if(data.enable_post.value){
+                await this.getImages();
+            } else {
+                this.setState({
+                    maintenance: true
+                })
+            }
+        } catch(err){
+            console.warn('error firebase', err)
+            await this.getImages();
+        }
     }
     getImages = async () => {
         try {
@@ -106,7 +114,7 @@ export default class Home extends Component {
        await this.getImages()
     }
     render(){
-        const { isFetching, images, data, isVisible } = this.state;
+        const { isFetching, images, data, isVisible, maintenance } = this.state;
         console.warn('isFetching', isFetching)
         return(
             <View style={styles.container}>
@@ -143,6 +151,22 @@ export default class Home extends Component {
                         styleButton={[styles.buttonContainer, styles.animation]}
                         styleText={styles.textButton}
                         title='Entendido'
+                    />
+                </CustomModal>
+                <CustomModal
+                    visible={maintenance}
+                    backdrop={()=> {}}
+                    title={'Estamos en mantenimiento'}
+                    message={'Estamos trabajando para darle un mejor servicio, disculpe los inconvenientes.'}
+                    icon={require('../../assets/mantenimiento.png')}
+                >
+                    <Button 
+                        onPressButton={() => {
+                            BackHandler.exitApp();
+                            }}
+                        styleButton={[styles.buttonContainer, styles.animation]}
+                        styleText={styles.textButton}
+                        title='Salir ahora'
                     />
                 </CustomModal>
             </View>
