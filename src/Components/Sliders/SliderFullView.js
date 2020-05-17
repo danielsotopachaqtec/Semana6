@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, Dimensions } from 'react-native';
 
 const styles = StyleSheet.create({
     scrollIndicator: {
@@ -14,7 +14,7 @@ export default class SliderFullView extends Component {
     constructor(props){
         super(props);
         this.state = {
-
+            scrollNavigate: ''
         }
     }
     render(){

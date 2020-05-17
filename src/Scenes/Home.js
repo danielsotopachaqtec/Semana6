@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { View, Text, Image, ScrollView, ImageBackground, StatusBar, StyleSheet, FlatList, SafeAreaView } from 'react-native'
+import { View, Dimensions ,Text, Image, ScrollView, ImageBackground, StatusBar, StyleSheet, FlatList, SafeAreaView } from 'react-native'
 import firebase from '@react-native-firebase/app'
 import remoteConfig from '@react-native-firebase/remote-config';
 import { Post } from '../Components/Post'
+import CustomModal from '../Components/Modal/CustomModal'
+import Button from '../Components/Forms/Button'
 // ES Modules syntax
 import Unsplash from 'unsplash-js';
 
@@ -12,6 +14,7 @@ const unsplash = new Unsplash({
   // Optionally if using a node-fetch polyfill or a version of fetch which supports the timeout option, you can configure the request timeout for all requests
   timeout: 100 // values set in ms
 });
+const { height : viewPortHeight} = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -30,29 +33,35 @@ const styles = StyleSheet.create({
     },
     description:{
         flex: 0.5
-    }
+    },
+    textButton: {
+        color: '#ffffff',
+        fontWeight: 'bold',
+        fontSize: 15
+    },
+    buttonContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#93278f',
+        marginTop: 10,
+        height: viewPortHeight * 0.08,
+        borderRadius: 5
+    },
 })
 export default class Home extends Component {
     constructor(props){
         super(props);
         this.state = {
-            postList: [
-                {id: 1, title: 'Splash 1', image: require('../../assets/slider1.jpeg'), title: 'Step 1'},
-                {id: 2, title: 'Splash 2', image: require('../../assets/slider2.jpeg'), title: 'Step 2'},
-                {id: 3, title: 'Splash 3', image: require('../../assets/slider3.jpeg'), title: 'Step 3'},
-                {id: 4, title: 'Splash 4', image: require('../../assets/slider4.jpeg'), title: 'Step 4'},
-                {id: 5, title: 'Splash 5', image: require('../../assets/slider5.jpeg'), title: 'Step 5'},
-                {id: 6, title: 'Splash 6', image: require('../../assets/slider6.jpeg'), title: 'Step 6'},
-            ],
+            postList: '',
             isFetching: false,
             data: [],
-            images: []
+            images: [],
+            isVisible: false
         }
     }
     async componentDidMount(){
         console.warn('this.state.data', this.state.data)
-        // await this.getImages();
-        // await this.getPost();
+        await this.getImages();
         
         // const parameters = remoteConfig().getAll();
         // console.warn('parameters', parameters)
@@ -67,7 +76,8 @@ export default class Home extends Component {
         
     }
     getImages = async () => {
-        unsplash.photos.getRandomPhoto({ count: "10" })
+        try {
+        unsplash.photos.getRandomPhoto({ count: 10 })
         .then((res)=> {
             console.warn('res', res)
             return res.json();
@@ -75,55 +85,37 @@ export default class Home extends Component {
         .then(json => {
             console.warn('json', json)
             const imagesJson = json.map((item) => {
-                 return item.urls
+                 return item
             })
-            this.setState({images: imagesJson})
-            console.warn('imagesJson', imagesJson)
+            this.setState({
+                images: imagesJson,
+                isFetching: false,
+                isVisible: false
+            })
         })
-        .catch((error)=> console.warn('error', error))
-    }
-    getPost = async () => {
-        const { postList, images } = this.state;
-        fetch('https://jsonplaceholder.typicode.com/posts')
-            .then((res)=> {
-                return res.json();
+        } catch(err){
+            this.setState({
+                isVisible: true
             })
-            .catch((error)=> console.warn('error', error))
-            .then((res)=> {
-                console.warn('res postList', res)
-                console.warn('images', images)
-                // const imgFull = images.map((ele) => {
-                //     console.warn('ele', ele);
-                //     return ele.full
-                // })
-                // console.warn('imgFull', imgFull)
-                // const post = res.map((item) => {
-                //     return item['urls'].push()
-                // })
-
-                this.setState({
-                    postList: res,
-                    isFetching: false
-                })
-            })
+        }
     }
     onRefresh = async() => {
         this.setState({
             isFetching: true
         })
-       await this.getPost()
+       await this.getImages()
     }
     render(){
-        const { postList, isFetching, images } = this.state;
+        const { isFetching, images, data, isVisible } = this.state;
         console.warn('isFetching', isFetching)
         return(
             <View style={styles.container}>
                 <StatusBar barStyle={'light-content'}/>
-                {postList ? (
+                {images ? (
                     <FlatList
-                    data={postList}
+                    data={images}
                     renderItem={({item}) => (
-                        <Post title={item.title} url={item.image}/>
+                        <Post title={item.alt_description} url={{uri: item.urls.full}}/>
                     )}
                     keyExtractor={item => item.id}
                     removeClippedSubviews={true}
@@ -135,6 +127,24 @@ export default class Home extends Component {
                     refreshing={isFetching}
                     />
                 ) : null}
+                <CustomModal
+                    visible={isVisible}
+                    backdrop={()=> this.setState({
+                        isVisible: false
+                    })}
+                    title={'Algo anda mal'}
+                    message={'No hemos podido consultar las publicaciones, intente nuevamente.'}
+                    iconError={true}
+                >
+                    <Button 
+                        onPressButton={() => {
+                            this.getImages()
+                            }}
+                        styleButton={[styles.buttonContainer, styles.animation]}
+                        styleText={styles.textButton}
+                        title='Entendido'
+                    />
+                </CustomModal>
             </View>
         )
     }
