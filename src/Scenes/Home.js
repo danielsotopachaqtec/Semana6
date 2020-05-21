@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Dimensions ,Text, Image, ScrollView, ImageBackground, StatusBar, StyleSheet, FlatList, SafeAreaView, BackHandler } from 'react-native'
+import { View, Dimensions ,Text, Image, ScrollView, ImageBackground, StatusBar, StyleSheet, FlatList, SafeAreaView, BackHandler, Platform } from 'react-native'
 import firebase from '@react-native-firebase/app'
 import remoteConfig from '@react-native-firebase/remote-config';
 import { Post } from '../Components/Post'
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#93278f',
         marginTop: 10,
-        height: viewPortHeight * 0.08,
+        height: Platform.OS === 'android' ?  viewPortHeight * 0.08 : viewPortHeight * 0.06,
         borderRadius: 5
     },
 })
@@ -160,7 +160,7 @@ export default class Home extends Component {
                         onPressButton={() => {
                             this.getImages()
                             }}
-                        styleButton={[styles.buttonContainer, styles.animation]}
+                        styleButton={styles.buttonContainer}
                         styleText={styles.textButton}
                         title='Entendido'
                     />
@@ -176,7 +176,7 @@ export default class Home extends Component {
                         onPressButton={() => {
                             BackHandler.exitApp();
                             }}
-                        styleButton={[styles.buttonContainer, styles.animation]}
+                        styleButton={styles.buttonContainer}
                         styleText={styles.textButton}
                         title='Salir ahora'
                     />

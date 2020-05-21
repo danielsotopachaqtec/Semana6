@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Dimensions, Text, Image } from 'react-native'
+import { View, StyleSheet, Dimensions, Text, Image, Platform } from 'react-native'
 import Modal from 'react-native-modal'
 import SuccessIcon from '../../../assets/Success.js'
 import ErrorIcon from '../../../assets/Error.js'
@@ -8,11 +8,12 @@ const { height : viewPortHeight} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     viewModal: {
-        flex: 0.45,
+        // flex: 0.35,
         alignItems: 'center',
         backgroundColor: '#ffffff',
         borderRadius: 5,
-        marginHorizontal: 20
+        marginHorizontal: 20,
+        height: Platform.OS === 'ios' ?  viewPortHeight * 0.30 : viewPortHeight * 0.40
     },
     contentModal: {
         paddingTop: 24,
