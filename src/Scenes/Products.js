@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, FlatList } from 'react-native'
-import SliderHome from '../Components/Sliders/SliderHome'
+import {SliderHome} from '../Components/Sliders/SliderHome'
 import ItemHomeSlider from '../Components/Sliders/ItemHomeSlider'
 
 const sliders = [
@@ -21,17 +21,7 @@ export default class Products extends Component {
     }
     render(){
         return(
-            <SliderHome>
-                <FlatList
-                    data={sliders}
-                    renderItem={({item}) => (
-                        <ItemHomeSlider image={item.image} title={item.title}/>
-                    )}
-                    keyExtractor={item => item.id}
-                    numColumns={1}
-                    horizontal={true}
-                />
-            </SliderHome>
+            <SliderHome sliders={sliders}/>
         )
     }
 }

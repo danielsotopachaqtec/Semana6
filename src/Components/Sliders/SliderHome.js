@@ -1,104 +1,99 @@
-import React, { Component } from 'react'
-import { View, ScrollView, StyleSheet, Dimensions, Animated } from 'react-native';
-
-let screenWidth = Dimensions.get('window').width;
-let screenHeight = Dimensions.get('window').height;
+import React, { useRef } from "react";
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  View,
+  Animated,
+  useWindowDimensions,
+  FlatList
+} from "react-native";
+import ItemHomeSlider from "./ItemHomeSlider";
 const styles = StyleSheet.create({
-    containerScroll:{
-        width: 200,
-        height: 2,
-        backgroundColor: '#cccccc',
-        overflow: "hidden"
-    },
-    scrollElement:{
+    container: {
+        flex: 1,
+      },
+      scrollContainer: {
         position: 'absolute',
-        top:0,
-        left: 0,
-        width: 50,
-        backgroundColor: '#93278f'
-    },
-    barContainer: { 
-        position: 'absolute',
-        zIndex: 2,
-        top: 40,
-        flexDirection: 'row'
-    },
-    bar: {
-        backgroundColor:'#93278f',
-        height: 2,
-        position: 'absolute',
-        left: 0,
-        top: 0
-    },
-    track: {
-        backgroundColor: '#cccccc',
-        overflow: 'hidden',
-        height: 2
-    }
+        zIndex: 1,
+        alignItems: "center",
+        justifyContent: "center"
+      },
+      indicatorContainer: {
+        position: 'relative',
+        bottom: 130,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center"
+      },
+      normalDot: {
+        height: 8,
+        width: 8,
+        borderRadius: 4,
+        backgroundColor: "#93278f",
+        marginHorizontal: 4
+      }
 })
 
-export default class SliderHome extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            scrollNavigate: ''
-        }
-    }
+export const SliderHome = (props) => {
 
-    
-    render(){
-        const { children } = this.props;
-        const animValue = new Animated.Value(0);
-        const barSpace = 20;
-        const numImages = 6;
-        const itemWidth = (280 / numImages) - ((numImages - 1) * barSpace)
-        const scrollBarValue = animValue.interpolate({
-            inputRange: [0,150],
-            outputRange: [150,0],
-            extrapolate: 'clamp'
-        })
-        const thisBar = (
-            <View
-                style={[
-                    styles.track,
-                    {
-                        width: itemWidth,
-                        marginLeft: barSpace
-                    }
-                ]}
-            >
-            <Animated.View
-                style={[styles.bar,
-                {
-                    width: itemWidth,
-                    transform: [
-                        {translateX: scrollBarValue}
-                    ]
-                }]}
-            />
-            </View>
-        )
-        return(
-            <ScrollView
+    const scrollX = useRef(new Animated.Value(0)).current;
+    const { width: windowWidth } = useWindowDimensions();
+    const { children, sliders } = props;
+    return(
+        <SafeAreaView style={styles.container}>
+            <View style={styles.scrollContainer}>
+                <ScrollView
                 horizontal={true}
-                pagingEnabled={true}
+                style={{ flex: 1}}
+                pagingEnabled
                 showsHorizontalScrollIndicator={false}
-                onScroll={(event) => {
-                    Animated.event(
-                        [{nativeEvent: {
-                            contentOffset: { x: animValue}
-                        }}]
-                    )
-                    let logData = `Scrolled to x = ${event.nativeEvent.contentOffset.x}, y = ${event.nativeEvent.contentOffset.y}`
-                    // console.warn(logData);
-                }}
-                scrollEventThrottle={10}
-            >  
-                {children}
-                <View style={styles.barContainer}>
-                    {thisBar}
-                </View>
-            </ScrollView>
-        )
-    }
+                onScroll={Animated.event([
+                    {
+                    nativeEvent: {
+                        contentOffset: {
+                        x: scrollX
+                        }
+                    }
+                    }
+                ])}
+                scrollEventThrottle={1}
+                >
+                    <FlatList
+                        data={sliders}
+                        renderItem={({item, imageIndex}) => (
+                            <View
+                                style={{ width: windowWidth, height: 250 }}
+                                key={imageIndex}
+                            >
+                                <ItemHomeSlider image={item.image} title={item.title}/>
+                            </View>
+                        )}
+                        keyExtractor={item => item.id}
+                        numColumns={1}
+                        horizontal={true}
+                    />
+                </ScrollView>
+                <View style={styles.indicatorContainer}>
+                        {sliders.map((slider, imageIndex) => {
+                            const width = scrollX.interpolate({
+                            inputRange: [
+                                windowWidth * (imageIndex - 1),
+                                windowWidth * imageIndex,
+                                windowWidth * (imageIndex + 1)
+                            ],
+                            outputRange: [8, 16, 8],
+                            extrapolate: "clamp"
+                            });
+                            return (
+                            <Animated.View
+                                key={imageIndex}
+                                style={[styles.normalDot, { width }]}
+                            />
+                            );
+                        })}
+                    </View>
+            </View>
+        </SafeAreaView>
+    )
 }
