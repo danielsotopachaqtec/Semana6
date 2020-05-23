@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, StyleSheet, Dimensions } from 'react-native';
+import { ScrollView, StyleSheet, Dimensions, SafeAreaView } from 'react-native';
 
 const styles = StyleSheet.create({
     scrollIndicator: {
@@ -18,13 +18,13 @@ export default class SliderFullView extends Component {
         }
     }
     render(){
-        const { children } = this.props;
+        const { children, scrollIndicator  } = this.props;
         return(
             <ScrollView
                 horizontal={true}
                 pagingEnabled={true}
-                showsHorizontalScrollIndicator={true}
-                scrollIndicatorInsets={styles.scrollIndicator}
+                showsHorizontalScrollIndicator={scrollIndicator ? true : false}
+                scrollIndicatorInsets={scrollIndicator ? styles.scrollIndicator : {}}
                 onScroll={(event) => {
                     let logData = `Scrolled to x = ${event.nativeEvent.contentOffset.x}, y = ${event.nativeEvent.contentOffset.y}`
                     // console.warn(logData);

@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
       },
       scrollContainer: {
         position: 'absolute',
-        zIndex: 1,
+        // zIndex: 1,
         alignItems: "center",
         justifyContent: "center"
       },
@@ -41,7 +41,7 @@ export const SliderHome = (props) => {
     const { width: windowWidth } = useWindowDimensions();
     const { children, sliders } = props;
     return(
-        <SafeAreaView style={styles.container}>
+        // <SafeAreaView style={styles.container}>
             <View style={styles.scrollContainer}>
                 <ScrollView
                 horizontal={true}
@@ -94,6 +94,6 @@ export const SliderHome = (props) => {
                         })}
                     </View>
             </View>
-        </SafeAreaView>
+        //</SafeAreaView>
     )
 }
