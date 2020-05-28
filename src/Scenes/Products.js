@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, FlatList, Dimensions } from 'react-native'
 import {SliderHome} from '../Components/Sliders/SliderHome'
 import SliderFullView from '../Components/Sliders/SliderFullView'
-import ItemHomeSlider from '../Components/Sliders/ItemHomeSlider'
 import CardProduct from '../Components/Products/CardProduct'
+import MenuFooter from '../Components/Menu/MenuFooter'
 
 
 const height = Dimensions.get('window').height;
@@ -60,6 +60,7 @@ export default class Products extends Component {
                         />
                     </SliderFullView>
                 </View>
+                <MenuFooter navigation={this.props.navigation}/>
             </View>
             
         )

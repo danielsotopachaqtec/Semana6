@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, FlatList } from 'react-native'
 import SliderFullView from '../Components/Sliders/SliderFullView'
 import ItemSlider from '../Components/Sliders/ItemSlider'
+import MenuFooter from '../Components/Menu/MenuFooter'
 
 const sliders = [
     {id: 1, image: require('../../assets/slider1.jpeg'), title: 'Step 1'},
@@ -21,7 +22,8 @@ export default class Intro extends Component {
     }
     render(){
         return(
-            <SliderFullView>
+            <View style={{ flex: 1 }}>
+                <SliderFullView>
                 <FlatList
                     data={sliders}
                     renderItem={({item}) => (
@@ -31,7 +33,10 @@ export default class Intro extends Component {
                     numColumns={1}
                     horizontal={true}
                 />
-            </SliderFullView>
+                </SliderFullView>
+                <MenuFooter navigation={this.props.navigation}/>
+            </View>
+            
         )
     }
 }

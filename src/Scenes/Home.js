@@ -5,6 +5,7 @@ import remoteConfig from '@react-native-firebase/remote-config';
 import { Post } from '../Components/Post'
 import CustomModal from '../Components/Modal/CustomModal'
 import Button from '../Components/Forms/Button'
+import MenuFooter from '../Components/Menu/MenuFooter'
 // ES Modules syntax
 import Unsplash from 'unsplash-js';
 
@@ -181,6 +182,7 @@ export default class Home extends Component {
                         title='Salir ahora'
                     />
                 </CustomModal>
+                <MenuFooter navigation={this.props.navigation}/>
             </View>
         )
     }
