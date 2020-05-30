@@ -130,60 +130,62 @@ export default class Home extends Component {
         const { isFetching, images, data, isVisible, maintenance } = this.state;
         console.warn('isFetching', isFetching)
         return(
-            <View style={styles.container}>
-                <StatusBar barStyle={'light-content'}/>
-                {images ? (
-                    <FlatList
-                    data={images}
-                    renderItem={({item}) => (
-                        <Post title={item.alt_description} url={{uri: item.urls.full}}/>
-                    )}
-                    keyExtractor={item => item.id}
-                    removeClippedSubviews={true}
-                    maxToRenderPerBatch={5}
-                    updateCellsBatchingPeriod={500}
-                    initialNumToRender={8}
-                    windowSize={10}
-                    onRefresh={()=> this.onRefresh()}
-                    refreshing={isFetching}
-                    />
-                ) : null}
-                <CustomModal
-                    visible={isVisible}
-                    backdrop={()=> this.setState({
-                        isVisible: false
-                    })}
-                    title={'Algo anda mal'}
-                    message={'No hemos podido consultar las publicaciones, intente nuevamente.'}
-                    iconError={true}
-                >
-                    <Button 
-                        onPressButton={() => {
-                            this.getImages()
-                            }}
-                        styleButton={styles.buttonContainer}
-                        styleText={styles.textButton}
-                        title='Entendido'
-                    />
-                </CustomModal>
-                <CustomModal
-                    visible={maintenance}
-                    backdrop={()=> {}}
-                    title={'Estamos en mantenimiento'}
-                    message={'Estamos trabajando para darle un mejor servicio, disculpe los inconvenientes.'}
-                    icon={require('../../assets/mantenimiento.png')}
-                >
-                    <Button 
-                        onPressButton={() => {
-                            BackHandler.exitApp();
-                            }}
-                        styleButton={styles.buttonContainer}
-                        styleText={styles.textButton}
-                        title='Salir ahora'
-                    />
-                </CustomModal>
+            <SafeAreaView style={styles.container}>
+                <View style={styles.container}>
+                    <StatusBar barStyle={'light-content'}/>
+                    {images ? (
+                        <FlatList
+                        data={images}
+                        renderItem={({item}) => (
+                            <Post title={item.alt_description} url={{uri: item.urls.full}}/>
+                        )}
+                        keyExtractor={item => item.id}
+                        removeClippedSubviews={true}
+                        maxToRenderPerBatch={5}
+                        updateCellsBatchingPeriod={500}
+                        initialNumToRender={8}
+                        windowSize={10}
+                        onRefresh={()=> this.onRefresh()}
+                        refreshing={isFetching}
+                        />
+                    ) : null}
+                    <CustomModal
+                        visible={isVisible}
+                        backdrop={()=> this.setState({
+                            isVisible: false
+                        })}
+                        title={'Algo anda mal'}
+                        message={'No hemos podido consultar las publicaciones, intente nuevamente.'}
+                        iconError={true}
+                    >
+                        <Button 
+                            onPressButton={() => {
+                                this.getImages()
+                                }}
+                            styleButton={styles.buttonContainer}
+                            styleText={styles.textButton}
+                            title='Entendido'
+                        />
+                    </CustomModal>
+                    <CustomModal
+                        visible={maintenance}
+                        backdrop={()=> {}}
+                        title={'Estamos en mantenimiento'}
+                        message={'Estamos trabajando para darle un mejor servicio, disculpe los inconvenientes.'}
+                        icon={require('../../assets/mantenimiento.png')}
+                    >
+                        <Button 
+                            onPressButton={() => {
+                                BackHandler.exitApp();
+                                }}
+                            styleButton={styles.buttonContainer}
+                            styleText={styles.textButton}
+                            title='Salir ahora'
+                        />
+                    </CustomModal>
+                </View>
                 <MenuFooter navigation={this.props.navigation}/>
-            </View>
+            </SafeAreaView>
         )
     }
 }

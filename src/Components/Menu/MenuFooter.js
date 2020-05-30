@@ -11,10 +11,7 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
         borderTopColor: '#DADADA',
         backgroundColor: '#F9F9F9',
-        paddingBottom: Platform.select({
-            ios: 30,
-            default: 0
-        })
+        paddingBottom: 0
     },
     title: {
         color: '#212121',
@@ -59,7 +56,6 @@ class MenuFooter extends Component {
     render(){
         return(
             <View>
-                <ScrollView showsHorizontalScrollIndicator={false}>
                     <View style={styles.box}>
                         <View style={styles.buttonFooter}>
                             <TouchableOpacity 
@@ -110,7 +106,6 @@ class MenuFooter extends Component {
                             </TouchableOpacity>
                         </View>
                     </View>
-                </ScrollView>
             </View>
         )
     }

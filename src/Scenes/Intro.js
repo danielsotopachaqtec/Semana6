@@ -1,8 +1,15 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import { View, Text, StyleSheet, FlatList, SafeAreaView } from 'react-native'
 import SliderFullView from '../Components/Sliders/SliderFullView'
 import ItemSlider from '../Components/Sliders/ItemSlider'
 import MenuFooter from '../Components/Menu/MenuFooter'
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#F9F9F9'
+    },
+})
 
 const sliders = [
     {id: 1, image: require('../../assets/slider1.jpeg'), title: 'Step 1'},
@@ -22,21 +29,22 @@ export default class Intro extends Component {
     }
     render(){
         return(
-            <View style={{ flex: 1 }}>
-                <SliderFullView>
-                <FlatList
-                    data={sliders}
-                    renderItem={({item}) => (
-                        <ItemSlider image={item.image} title={item.title}/>
-                    )}
-                    keyExtractor={item => item.id}
-                    numColumns={1}
-                    horizontal={true}
-                />
-                </SliderFullView>
+            <SafeAreaView style={styles.container}>
+                <View style={{ flex: 1 }}>
+                    <SliderFullView>
+                    <FlatList
+                        data={sliders}
+                        renderItem={({item}) => (
+                            <ItemSlider image={item.image} title={item.title}/>
+                        )}
+                        keyExtractor={item => item.id}
+                        numColumns={1}
+                        horizontal={true}
+                    />
+                    </SliderFullView>
+                </View>
                 <MenuFooter navigation={this.props.navigation}/>
-            </View>
-            
+            </SafeAreaView>
         )
     }
 }

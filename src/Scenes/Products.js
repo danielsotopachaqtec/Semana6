@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, FlatList, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, FlatList, Dimensions, SafeAreaView } from 'react-native'
 import {SliderHome} from '../Components/Sliders/SliderHome'
 import SliderFullView from '../Components/Sliders/SliderFullView'
 import CardProduct from '../Components/Products/CardProduct'
@@ -28,6 +28,10 @@ const products = [
 const styles = StyleSheet.create({
     container: {
         flex: 1
+    },
+    containerSafeArea: {
+        flex: 1,
+        backgroundColor: '#F9F9F9'
     }
 })
 export default class Products extends Component {
@@ -39,29 +43,31 @@ export default class Products extends Component {
     }
     render(){
         return(
-            <View style={styles.container}>
-                <SliderHome sliders={sliders}/>
-                <View style={{ marginTop: height * 0.22 }}>
-                <Text style={{ fontSize: 18, marginHorizontal: 15, marginVertical: 15, fontWeight: 'bold' }}>{'Recommended'}</Text>
-                    <SliderFullView>
-                        <FlatList
-                            data={products}
-                            horizontal
-                            renderItem={({item, index}) => (
-                                <CardProduct
-                                imageBrand={item.imageBrand}
-                                imageProduct={item.imageProduct}
-                                productName={item.productName}
-                                productPrice={item.productPrice}
-                                backgroundColor={item.color}
-                                />
-                            )}
-                            keyExtractor={item => item.id}
-                        />
-                    </SliderFullView>
+            <SafeAreaView style={styles.container}>
+                <View style={styles.container}>
+                    <SliderHome sliders={sliders}/>
+                    <View style={{ marginTop: height * 0.22 }}>
+                    <Text style={{ fontSize: 18, marginHorizontal: 15, marginVertical: 15, fontWeight: 'bold' }}>{'Recommended'}</Text>
+                        <SliderFullView>
+                            <FlatList
+                                data={products}
+                                horizontal
+                                renderItem={({item, index}) => (
+                                    <CardProduct
+                                    imageBrand={item.imageBrand}
+                                    imageProduct={item.imageProduct}
+                                    productName={item.productName}
+                                    productPrice={item.productPrice}
+                                    backgroundColor={item.color}
+                                    />
+                                )}
+                                keyExtractor={item => item.id}
+                            />
+                        </SliderFullView>
+                    </View>
                 </View>
-                <MenuFooter navigation={this.props.navigation}/>
-            </View>
+            <MenuFooter navigation={this.props.navigation}/>
+            </SafeAreaView>
             
         )
     }

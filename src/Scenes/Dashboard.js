@@ -1,13 +1,22 @@
 import React , { useState} from 'react';
-import { View, Dimensions, Animated, Text } from 'react-native'
+import { View, Dimensions, Animated, Text, SafeAreaView, StyleSheet } from 'react-native'
 import MenuFooter from '../Components/Menu/MenuFooter'
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#F9F9F9'
+    },
+})
 
 const Dashboard = (props) => {
     return (
-        <View>
+        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <Text>Hola Hola</Text>
-            <MenuFooter navigation={props.navigation}/>
         </View>
+        <MenuFooter navigation={props.navigation}/>
+        </SafeAreaView>
     )
 }
 
