@@ -6,6 +6,7 @@ import { Post } from '../Components/Post'
 import CustomModal from '../Components/Modal/CustomModal'
 import Button from '../Components/Forms/Button'
 import MenuFooter from '../Components/Menu/MenuFooter'
+import { CommonActions } from '@react-navigation/native';
 // ES Modules syntax
 import Unsplash from 'unsplash-js';
 
@@ -20,6 +21,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#ffffff'
+    },
+    containerSafeArea: {
+        flex: 1,
+        backgroundColor: '#F9F9F9'
     },
     post: {
         display: 'flex',
@@ -63,6 +68,7 @@ export default class Home extends Component {
     }
     async componentDidMount(){
         try{
+            console.warn('this.props Home', this.props.route)
             // await remoteConfig().setConfigSettings({
             //     isDeveloperModeEnabled: true,
             //   });
@@ -129,8 +135,9 @@ export default class Home extends Component {
     render(){
         const { isFetching, images, data, isVisible, maintenance } = this.state;
         console.warn('isFetching', isFetching)
+        console.warn('this.props Navigation Home', this.props.route.params)
         return(
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView style={styles.containerSafeArea}>
                 <View style={styles.container}>
                     <StatusBar barStyle={'light-content'}/>
                     {images ? (

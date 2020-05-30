@@ -37,8 +37,7 @@ class MenuFooter extends Component {
 
         }
     }
-
-    onPressMenuFooter = async(route) => {
+    onPressMenuFooter = (route) => {
         if(route === 'Home'){
             DeviceEventEmitter.emit('eventHome', true);
         }

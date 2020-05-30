@@ -7,8 +7,11 @@ import MenuFooter from '../Components/Menu/MenuFooter'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F9F9F9'
     },
+    containerSafeArea: {
+        flex: 1,
+        backgroundColor: '#F9F9F9'
+    }
 })
 
 const sliders = [
@@ -29,8 +32,8 @@ export default class Intro extends Component {
     }
     render(){
         return(
-            <SafeAreaView style={styles.container}>
-                <View style={{ flex: 1 }}>
+            <SafeAreaView style={styles.containerSafeArea}>
+                <View style={styles.container}>
                     <SliderFullView>
                     <FlatList
                         data={sliders}

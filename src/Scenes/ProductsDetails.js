@@ -4,7 +4,6 @@ import {SliderHome} from '../Components/Sliders/SliderHome'
 import SliderFullView from '../Components/Sliders/SliderFullView'
 import CardProduct from '../Components/Products/CardProduct'
 import MenuFooter from '../Components/Menu/MenuFooter'
-import { CommonActions } from '@react-navigation/native';
 
 
 const height = Dimensions.get('window').height;
@@ -42,17 +41,14 @@ export default class Products extends Component {
 
         }
     }
-    goToProduct = (item, index) => {
-        const { navigation } = this.props;
-        console.warn('goToProduct', item, 'index', index)
-        console.warn('this.props', this.props,this.props.navigation)
-        navigation.navigate('ProductsDetails', item)
+    componentDidMount(){
+        console.warn('componentDidMount this.props.route', this.props.route)
     }
     render(){
+        console.warn('this.props.navigation', this.props.navigation)
         return(
             <SafeAreaView style={styles.containerSafeArea}>
                 <View style={styles.container}>
-                    <SliderHome sliders={sliders}/>
                     <View style={{ marginTop: height * 0.22 }}>
                     <Text style={{ fontSize: 18, marginHorizontal: 15, marginVertical: 15, fontWeight: 'bold' }}>{'Recommended'}</Text>
                         <SliderFullView>
@@ -61,7 +57,6 @@ export default class Products extends Component {
                                 horizontal
                                 renderItem={({item, index}) => (
                                     <CardProduct
-                                    onPress={() => this.goToProduct(item, index)}
                                     imageBrand={item.imageBrand}
                                     imageProduct={item.imageProduct}
                                     productName={item.productName}

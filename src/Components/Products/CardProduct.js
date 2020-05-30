@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Image, ImageBackground, StyleSheet, Dimensions  } from 'react-native'
+import { View, Text, Image, ImageBackground, StyleSheet, Dimensions, TouchableOpacity  } from 'react-native'
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
@@ -61,32 +61,38 @@ export default class CardProduct extends Component {
 
         }
     }
+    goToProduct = (item, index) => {
+        console.warn(' this.props.goToProduct Function', this.props.onPress)
+        this.props.onPress && this.props.onPress(item, index)
+    }
     render(){
         const {imageBrand, imageProduct, productName, productPrice, backgroundColor} = this.props;
         return (
-            <View style={[styles.container, { backgroundColor: backgroundColor}]}>
-                <View style={styles.containerImageBrand}>
-                    <Image
-                        source={imageBrand}
-                        style={styles.imageBrand}
+            <TouchableOpacity onPress={this.goToProduct}>
+                <View style={[styles.container, { backgroundColor: backgroundColor}]}>
+                    <View style={styles.containerImageBrand}>
+                        <Image
+                            source={imageBrand}
+                            style={styles.imageBrand}
 
-                    />
+                        />
+                    </View>
+                    <View style={styles.containerImageProduct}>
+                        <Image
+                            source={imageProduct}
+                            style={styles.imageProduct}
+                        />
+                    </View>
+                    <View style={styles.containerDetails}>
+                        <Text style={styles.productName}>
+                        {productName}
+                        </Text>
+                        <Text style={styles.productPrice}>
+                        {productPrice}
+                        </Text>
+                    </View>
                 </View>
-                <View style={styles.containerImageProduct}>
-                    <Image
-                        source={imageProduct}
-                        style={styles.imageProduct}
-                    />
-                </View>
-                <View style={styles.containerDetails}>
-                    <Text style={styles.productName}>
-                    {productName}
-                    </Text>
-                    <Text style={styles.productPrice}>
-                    {productPrice}
-                    </Text>
-                </View>
-            </View>
+            </TouchableOpacity>
         )
     }
 }
