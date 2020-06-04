@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -20,14 +12,16 @@ import {
   KeyboardAvoidingView,
   Platform
 } from 'react-native';
-import Input from './src/Components/Forms/Input';
-import Button from './src/Components/Forms/Button'
+import Input from '../Components/Forms/Input';
+import Button from '../Components/Forms/Button'
+import CustomModal from '../Components/Modal/CustomModal'
 import { TypingAnimation } from 'react-native-typing-animation'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import * as Animatable from 'react-native-animatable'
 
 const width = Dimensions.get('screen').width;
+const { height : viewPortHeight} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -91,10 +85,23 @@ const styles = StyleSheet.create({
     borderRadius: 80,
     justifyContent: 'center',
     alignItems: 'center'
-  }
+  },
+  textButtonModal: {
+      color: '#ffffff',
+      fontWeight: 'bold',
+      fontSize: 15
+  },
+  buttonContainerModal: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#93278f',
+    marginTop: 10,
+    height: Platform.OS === 'android' ?  viewPortHeight * 0.08 : viewPortHeight * 0.06,
+    borderRadius: 5
+},
 });
 
-export default class App extends Component {
+export default class Login extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -111,7 +118,9 @@ export default class App extends Component {
       password:'',
       phoneNumber:'',
       disabled: true,
-      disabledButton: true
+      disabledButton: true,
+      isVisible: false,
+      isError: false
     }
   }
   onChangeText = (value, type) => {
@@ -208,8 +217,43 @@ export default class App extends Component {
       disabledButton: true
     })
   }
+  sendRegister = () => {
+    fetch('http://localhost:3000/users/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: this.inputEmail.state.value,
+        password: this.inputPassword.state.value,
+        phoneNumber: `+51${this.inputPhoneNumber.state.value.toString()}`
+      })
+    })
+    .then((response)=> {
+      return response.json();
+    })
+    .then((data) => {
+      if(data.errors){
+        this.setState({
+          isError: true
+        })
+      } else {
+        this.setState({
+          isVisible: true,
+          signUp: false,
+          signIn: true
+        })
+      }
+      console.warn('Response data Signup', data)
+    })
+    .catch((err) => {
+      this.setState({
+        isError: true
+      })
+    })
+  }
   render(){
-    const { animationSignIn, animationSignUp, typingEmail, typingPassword, typingPhoneNumber,enable, signIn, signUp, login, email, password, phoneNumber, disabled, disabledButton } = this.state;
+    const { animationSignIn, animationSignUp, typingEmail, typingPassword, typingPhoneNumber,enable, signIn, signUp, login, email, password, phoneNumber, disabled, disabledButton, isVisible, isError } = this.state;
     const width = login && enable ? animationSignUp : signIn ? animationSignIn : animationSignUp ;
   return (
     <KeyboardAvoidingView 
@@ -220,7 +264,7 @@ export default class App extends Component {
       <StatusBar barStyle='light-content' />
       <View style={styles.header}>
         <ImageBackground
-          source={require('./assets/header.png')}
+          source={require('../../assets/header.png')}
           style={styles.imageBackground}>
           <Text style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 30}}>
             Welcome Back
@@ -345,10 +389,7 @@ export default class App extends Component {
             { typingPhoneNumber ? this.typing() : null}
           </View>
           <Button 
-            onPressButton={() => this.setState({
-              signUp: false,
-              signIn: true
-            })}
+            onPressButton={() => this.sendRegister()}
             styleButton={[styles.buttonContainer, styles.animation]}
             styleText={styles.textLogin}
             title='Sign up'
@@ -363,6 +404,42 @@ export default class App extends Component {
           </TouchableOpacity>
         </View>
       </View>
+      <CustomModal
+          visible={isVisible}
+          backdrop={()=> this.setState({
+              isVisible: false
+          })}
+          title={'Registro éxitoso'}
+          message={'Se han registrado tus datos correctamente.'}
+          iconSuccess={true}
+      >
+          <Button 
+              onPressButton={()=> this.setState({
+                isVisible: false
+              })}
+              styleButton={styles.buttonContainerModal}
+              styleText={styles.textButtonModal}
+              title='Entendido'
+          />
+      </CustomModal>
+      <CustomModal
+          visible={isError}
+          backdrop={()=> this.setState({
+              isError: false
+          })}
+          title={'Registro Fallido'}
+          message={'Datos incorrectos, intenta cambiando su número teléfonico o su correo.'}
+          iconError={true}
+      >
+          <Button 
+              onPressButton={()=> this.setState({
+                isError: false
+              })}
+              styleButton={styles.buttonContainerModal}
+              styleText={styles.textButtonModal}
+              title='Entendido'
+          />
+      </CustomModal>
       </ScrollView>
       </View>
     </KeyboardAvoidingView>

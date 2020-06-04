@@ -5,8 +5,7 @@ import Home from '../Scenes/Home';
 import Intro from '../Scenes/Intro';
 import Products from '../Scenes/Products';
 import ProductsDetails from '../Scenes/ProductsDetails';
-import NavigationContainer from '@react-navigation/native';
-import MenuFooter from '../Components/Menu/MenuFooter'
+import { AuthStackNavigator } from './auth'
 const Stack = createStackNavigator();
 
 const MainStackNavigator = (props) => {
@@ -17,7 +16,7 @@ const MainStackNavigator = (props) => {
   });
   return (
     <Stack.Navigator
-        initialRouteName="Home"
+        initialRouteName="Login"
         headerMode="screen"
     >
       <Stack.Screen 
@@ -34,6 +33,19 @@ const MainStackNavigator = (props) => {
       name="Intro"
       component={Intro}
       options={{ cardStyleInterpolator: forFade }}
+      />
+      <Stack.Screen 
+        name={"Login"}
+        component={AuthStackNavigator}
+        options={({ route }) => ({
+          cardStyleInterpolator: forFade,
+          header: ({ scene, previous, navigation }) => {
+            return (
+              undefined
+            );
+          }
+        })}
+
       />
       <Stack.Screen
       name="Products"
