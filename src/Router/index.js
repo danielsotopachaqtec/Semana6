@@ -43,7 +43,10 @@ const MainStackNavigator = (props) => {
       <Stack.Screen
       name="ProductsDetails"
       component={ProductsDetails}
-      options={{ cardStyleInterpolator: forFade }}
+      options={{ 
+        cardStyleInterpolator: forFade,
+        headerTitle: 'Product detail'
+        }}
       />
     </Stack.Navigator>
   );

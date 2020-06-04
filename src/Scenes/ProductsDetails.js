@@ -1,73 +1,90 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, FlatList, Dimensions, SafeAreaView } from 'react-native'
-import {SliderHome} from '../Components/Sliders/SliderHome'
-import SliderFullView from '../Components/Sliders/SliderFullView'
-import CardProduct from '../Components/Products/CardProduct'
 import MenuFooter from '../Components/Menu/MenuFooter'
+import ImageProductDetail from '../Components/Products/ImageProductDetail';
 
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
-const sliders = [
-    {id: 1, image: require('../../assets/photo_product_slider_1.jpeg'), title: 'Step 1'},
-    {id: 2, image: require('../../assets/photo_product_slider_2.jpeg'), title: 'Step 2'},
-    {id: 3, image: require('../../assets/photo_product_slider_3.jpeg'), title: 'Step 3'},
-    {id: 4, image: require('../../assets/photo_product_slider_4.jpeg'), title: 'Step 4'},
-    {id: 5, image: require('../../assets/photo_product_slider_5.jpeg'), title: 'Step 5'},
-    {id: 6, image: require('../../assets/photo_product_slider_6.jpeg'), title: 'Step 6'},
-]
-const products = [
-    {imageBrand: require('../../assets/logo-apple-test.png'),imageProduct: require('../../assets/iphone_xs_64gb_gold_card_product.png'), productName: 'Iphone Xs 64Gb', productPrice: '$1250', color: '#7b1fa2'},
-    {imageBrand: require('../../assets/logo-apple-test.png'),imageProduct: require('../../assets/iphone_xs_64gb_gold_card_product.png'), productName: 'Iphone Xs 64Gb', productPrice: '$1250', color: '#d32f2f'},
-    {imageBrand: require('../../assets/logo-apple-test.png'),imageProduct: require('../../assets/iphone_xs_64gb_gold_card_product.png'), productName: 'Iphone Xs 64Gb', productPrice: '$1250', color: '#1976d2'},
-    {imageBrand: require('../../assets/logo-apple-test.png'),imageProduct: require('../../assets/iphone_xs_64gb_gold_card_product.png'), productName: 'Iphone Xs 64Gb', productPrice: '$1250', color: '#0097a7'},
-    {imageBrand: require('../../assets/logo-apple-test.png'),imageProduct: require('../../assets/iphone_xs_64gb_gold_card_product.png'), productName: 'Iphone Xs 64Gb', productPrice: '$1250', color: '#388e3c'},
-    {imageBrand: require('../../assets/logo-apple-test.png'),imageProduct: require('../../assets/iphone_xs_64gb_gold_card_product.png'), productName: 'Iphone Xs 64Gb', productPrice: '$1250', color: '#ffa000'}
-]
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        marginHorizontal: 20
     },
     containerSafeArea: {
         flex: 1,
         backgroundColor: '#F9F9F9'
+    },
+    price: {
+        fontSize: 26,
+        fontWeight: 'bold',
+        marginTop: 20
+    },
+    stock:{
+        fontSize: 14,
+        color: '#7b1fa2',
+        marginTop: 5
+    },
+    outStock: {
+        fontSize: 14,
+        color: '#cccccc',
+        marginTop: 5
+    },
+    title: {
+        fontSize: 24,
+        color: '#212121',
+        marginTop: 5
+    },
+    subtitle: {
+        fontSize: 14,
+        color: '#212121',
+        marginTop: 5
     }
 })
 export default class Products extends Component {
     constructor(props){
         super(props);
         this.state = {
-
+            imagesProducts: []
         }
     }
     componentDidMount(){
+        const { imagesProducts } = this.props.route.params
+        console.warn('componentDidMount imagesProducts', imagesProducts)
         console.warn('componentDidMount this.props.route', this.props.route)
+        this.setState({
+            imagesProducts: imagesProducts
+        })
     }
     render(){
-        console.warn('this.props.navigation', this.props.navigation)
+        const { imagesProducts } = this.state
+        const { productPrice, qty, productName, description, imageProduct } = this.props.route.params
         return(
             <SafeAreaView style={styles.containerSafeArea}>
                 <View style={styles.container}>
-                    <View style={{ marginTop: height * 0.22 }}>
-                    <Text style={{ fontSize: 18, marginHorizontal: 15, marginVertical: 15, fontWeight: 'bold' }}>{'Recommended'}</Text>
-                        <SliderFullView>
-                            <FlatList
-                                data={products}
-                                horizontal
-                                renderItem={({item, index}) => (
-                                    <CardProduct
-                                    imageBrand={item.imageBrand}
-                                    imageProduct={item.imageProduct}
-                                    productName={item.productName}
-                                    productPrice={item.productPrice}
-                                    backgroundColor={item.color}
-                                    />
-                                )}
-                                keyExtractor={item => item.id}
-                            />
-                        </SliderFullView>
-                    </View>
+                    {imagesProducts ? (
+                        <ImageProductDetail image={imageProduct} images={imagesProducts}/>
+                    ) : null}
+                    <Text style={styles.price}>
+                        {productPrice}
+                    </Text>
+                    { qty === 0 ? (
+                        <Text style={styles.outStock}>
+                            Out stock
+                        </Text>
+                    ): (
+                        <Text style={styles.stock}>
+                            In Stock
+                        </Text>
+                    )
+                    }
+                    <Text style={styles.title}>
+                    {productName}
+                    </Text>
+                    <Text style={styles.subtitle}>
+                    {description}
+                    </Text>
                 </View>
             <MenuFooter navigation={this.props.navigation}/>
             </SafeAreaView>
