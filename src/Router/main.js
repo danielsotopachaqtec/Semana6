@@ -22,7 +22,16 @@ const MainStackNavigator = (props) => {
       <Stack.Screen 
         name="Home"
         component={Home}
-        options={{ cardStyleInterpolator: forFade }}
+        options={{ 
+          cardStyleInterpolator: forFade,
+          gestureEnabled: false,
+          header: ({ scene, previous, navigation }) => {
+            return (
+              undefined
+            );
+          }
+          }}
+
       />
       <Stack.Screen
       name="Dashboard"

@@ -4,6 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { MainStackNavigator } from './Router/main'
 
+console.disableYellowBox = true;
+
 export default class App extends Component {
   constructor(props){
     super(props)
