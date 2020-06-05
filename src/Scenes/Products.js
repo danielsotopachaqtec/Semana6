@@ -32,7 +32,11 @@ const products = [
             {uri: 'https://equiposlibres.pe/wp-content/uploads/2018/10/iphone_Xs_64gb_gold_sku_header.png'},
             {uri: 'https://equiposlibres.pe/wp-content/uploads/2018/10/iphone_Xs_64gb_gold_sku_header.png'},
         ],
-        qty: 0,
+        qty: 10,
+        colors: [
+            {color: '#ff80ab', stock: 5},
+            {color: '#37474f', stock: 5}
+        ],
         productName: 'Iphone Xs 64Gb',
         description: 'new Iphone 2020 collection',
         productPrice: '$1250',
@@ -53,6 +57,10 @@ const products = [
         ],
         description: 'new Iphone 2020 collection',
         qty: 10,
+        colors: [
+            {color: '#ff8f00', stock: 5},
+            {color: '#558b2f', stock: 5}
+        ],
         productName: 'Iphone Xs 64Gb',
         productPrice: '$1250',
         color: '#d32f2f'
@@ -72,6 +80,14 @@ const products = [
         ],
         description: 'new Iphone 2020 collection',
         qty: 30,
+        colors: [
+            {color: '#ff8f00', stock: 5},
+            {color: '#558b2f', stock: 5},
+            {color: '#d4e157', stock: 5},
+            {color: '#00bfa5', stock: 5},
+            {color: '#00b0ff', stock: 5},
+            {color: '#1565c0', stock: 5}
+        ],
         productName: 'Iphone Xs 64Gb',
         productPrice: '$1250',
         color: '#1976d2'
@@ -91,6 +107,9 @@ const products = [
         ],
         description: 'new Iphone 2020 collection',
         qty: 5,
+        colors: [
+            {color: '#ff8f00', stock: 5}
+        ],
         productName: 'Iphone Xs 64Gb',
         productPrice: '$1250',
         color: '#0097a7'
@@ -109,7 +128,19 @@ const products = [
             {uri: 'https://equiposlibres.pe/wp-content/uploads/2018/10/iphone_Xs_64gb_gold_sku_header.png'},
         ],
         description: 'new Iphone 2020 collection',
-        qty: 9,
+        qty: 40,
+        colors: [
+            {color: '#ff8f00', stock: 4},
+            {color: '#558b2f', stock: 4},
+            {color: '#d4e157', stock: 4},
+            {color: '#00bfa5', stock: 4},
+            {color: '#00b0ff', stock: 4},
+            {color: '#1565c0', stock: 4},
+            {color: '#ff8f00', stock: 4},
+            {color: '#558b2f', stock: 4},
+            {color: '#d4e157', stock: 4},
+            {color: '#00bfa5', stock: 4},
+        ],
         productName: 'Iphone Xs 64Gb',
         productPrice: '$1250',
         color: '#388e3c'
@@ -129,6 +160,11 @@ const products = [
         ],
         description: 'new Iphone 2020 collection',
         qty: 12,
+        colors: [
+            {color: '#ff8f00', stock: 4},
+            {color: '#558b2f', stock: 4},
+            {color: '#d4e157', stock: 4},
+        ],
         productName: 'Iphone Xs 64Gb',
         productPrice: '$1250',
         color: '#ffa000'

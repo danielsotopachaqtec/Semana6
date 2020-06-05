@@ -247,7 +247,6 @@ export default class Login extends Component {
       if(data.errors){
         this.setState({
           isLoginError: true,
-          login: false
         })
       } else {
         this.props.navigation.navigate('Home', data)
@@ -530,7 +529,8 @@ export default class Login extends Component {
           visible={isLoginError}
           backdrop={()=> this.setState({
             isLoginError: false,
-            enable: true
+            enable: true,
+            login: true
           })}
           title={'Datos incorrectos'}
           message={'Verifica tu datos.'}
@@ -539,7 +539,8 @@ export default class Login extends Component {
           <Button 
               onPressButton={()=> this.setState({
                 isLoginError: false,
-                enable: true
+                enable: true,
+                login: true
               })}
               styleButton={styles.buttonContainerModal}
               styleText={styles.textButtonModal}

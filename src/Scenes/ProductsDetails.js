@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, FlatList, Dimensions, SafeAreaView } from 'react-native'
+import { View, Text, StyleSheet, FlatList, Dimensions, SafeAreaView, ScrollView } from 'react-native'
 import MenuFooter from '../Components/Menu/MenuFooter'
 import ImageProductDetail from '../Components/Products/ImageProductDetail';
 
@@ -40,6 +40,11 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#212121',
         marginTop: 5
+    },
+    colorTitle: {
+        fontSize: 18,
+        color: '#212121',
+        marginTop: 20
     }
 })
 export default class Products extends Component {
@@ -59,7 +64,7 @@ export default class Products extends Component {
     }
     render(){
         const { imagesProducts } = this.state
-        const { productPrice, qty, productName, description, imageProduct } = this.props.route.params
+        const { productPrice, qty, productName, description, imageProduct, colors } = this.props.route.params
         return(
             <SafeAreaView style={styles.containerSafeArea}>
                 <View style={styles.container}>
@@ -85,6 +90,30 @@ export default class Products extends Component {
                     <Text style={styles.subtitle}>
                     {description}
                     </Text>
+                    <Text style={styles.colorTitle}>
+                    {'Colors'}
+                    </Text>
+                    <ScrollView
+                        horizontal={true}
+                        showsHorizontalScrollIndicator={false}
+                        scrollEventThrottle={100}
+                        decelerationRate='fast'
+                        pagingEnabled
+                    >
+                        { colors && colors.map((color)=> 
+                            <View style={{ 
+                                backgroundColor: color.color, 
+                                width: width * 0.13,
+                                height: height * 0.06,
+                                borderRadius: 40,
+                                marginHorizontal: 10,
+                                marginVertical: 10
+                                }}>
+
+                                </View>
+                        )
+                        }
+                    </ScrollView>
                 </View>
             <MenuFooter navigation={this.props.navigation}/>
             </SafeAreaView>
