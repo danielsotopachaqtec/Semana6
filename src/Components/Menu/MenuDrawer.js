@@ -31,7 +31,7 @@ const MenuDrawer = (props) => {
                                 />
                             )}
                             label='Home'
-                            onPress={() => {props.navigation.navigate('Home')}}
+                            onPress={() => {props.navigation.navigate('Index')}}
                         />
                         <DrawerItem
                             icon={() => (

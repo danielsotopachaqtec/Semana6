@@ -59,7 +59,7 @@ class MenuFooter extends Component {
                         <View style={styles.buttonFooter}>
                             <TouchableOpacity 
                                 style={styles.buttonFooter}
-                                onPress={() => this.onPressMenuFooter('Home')}    
+                                onPress={() => this.onPressMenuFooter('Index')}    
                             >
                                 <Image 
                                 style={styles.image}

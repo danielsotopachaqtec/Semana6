@@ -17,11 +17,11 @@ const MainStackNavigator = (props) => {
   });
   return (
     <Stack.Navigator
-        initialRouteName="Login"
+        initialRouteName="Index"
         headerMode="screen"
     >
       <Stack.Screen 
-        name="Home"
+        name="Index"
         component={Home}
         options={{ 
           cardStyleInterpolator: forFade,
@@ -37,37 +37,51 @@ const MainStackNavigator = (props) => {
       <Stack.Screen
       name="Dashboard"
       component={Dashboard}
-      options={{ cardStyleInterpolator: forFade }}
-      />
-      <Stack.Screen
-      name="Intro"
-      component={Intro}
-      options={{ cardStyleInterpolator: forFade }}
-      />
-      <Stack.Screen 
-        name={"Login"}
-        component={AuthStackNavigator}
-        options={({ route }) => ({
-          cardStyleInterpolator: forFade,
-          header: ({ scene, previous, navigation }) => {
+      options={{ 
+        cardStyleInterpolator: forFade,
+        gestureEnabled: false,
+        headerLeft: ({ scene, previous, navigation }) => {
             return (
               undefined
             );
           }
-        })}
-
+        }}
+      />
+      <Stack.Screen
+      name="Intro"
+      component={Intro}
+      options={{
+        cardStyleInterpolator: forFade,
+        gestureEnabled: false,
+        headerLeft: ({ scene, previous, navigation }) => {
+            return (
+              undefined
+            );
+          }}}
       />
       <Stack.Screen
       name="Products"
       component={Products}
-      options={{ cardStyleInterpolator: forFade }}
+      options={{ 
+        cardStyleInterpolator: forFade,
+        gestureEnabled: false,
+        headerLeft: ({ scene, previous, navigation }) => {
+            return (
+              undefined
+            );
+          }}}
       />
       <Stack.Screen
       name="ProductsDetails"
       component={ProductsDetails}
       options={{ 
         cardStyleInterpolator: forFade,
-        headerTitle: 'Product detail'
+        headerTitle: 'Product detail',
+        headerLeft: ({ scene, previous, navigation }) => {
+            return (
+              undefined
+            );
+          }
         }}
       />
     </Stack.Navigator>
