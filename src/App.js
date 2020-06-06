@@ -1,10 +1,9 @@
 
 import React, { Component } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { MainStackNavigator } from './Router/main'
+import { DrawerStackNavigator } from './Router/drawer'
 
-console.disableYellowBox = true;
+// console.disableYellowBox = true;
 
 export default class App extends Component {
   constructor(props){
@@ -16,7 +15,7 @@ export default class App extends Component {
     render(){
         return (
             <NavigationContainer>
-              <MainStackNavigator/>
+              <DrawerStackNavigator/>
             </NavigationContainer>
           )
     }

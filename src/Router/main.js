@@ -6,6 +6,7 @@ import Intro from '../Scenes/Intro';
 import Products from '../Scenes/Products';
 import ProductsDetails from '../Scenes/ProductsDetails';
 import { AuthStackNavigator } from './auth'
+import drawerNavigation from './drawer'
 const Stack = createStackNavigator();
 
 const MainStackNavigator = (props) => {
