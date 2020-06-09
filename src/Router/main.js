@@ -5,8 +5,7 @@ import Home from '../Scenes/Home';
 import Intro from '../Scenes/Intro';
 import Products from '../Scenes/Products';
 import ProductsDetails from '../Scenes/ProductsDetails';
-import { AuthStackNavigator } from './auth'
-import drawerNavigation from './drawer'
+import ProductAnimation from '../Scenes/ProductAnimation'
 const Stack = createStackNavigator();
 
 const MainStackNavigator = (props) => {
@@ -77,6 +76,19 @@ const MainStackNavigator = (props) => {
       options={{ 
         cardStyleInterpolator: forFade,
         headerTitle: 'Product detail',
+        headerLeft: ({ scene, previous, navigation }) => {
+            return (
+              undefined
+            );
+          }
+        }}
+      />
+      <Stack.Screen
+      name="ProductAnimation"
+      component={ProductAnimation}
+      options={{ 
+        cardStyleInterpolator: forFade,
+        headerTitle: 'Products',
         headerLeft: ({ scene, previous, navigation }) => {
             return (
               undefined
