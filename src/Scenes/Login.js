@@ -228,10 +228,11 @@ export default class Login extends Component {
   }
   sendLogin = () => {
     this._animation();
-    fetch('http://localhost:3000/users/signin', {
+    fetch('http://192.168.1.18:3000/users/signin', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Accept:  'application/json'
       },
       body: JSON.stringify({
         email: this.inputEmail.state.value,
@@ -244,6 +245,7 @@ export default class Login extends Component {
       return response.json();
     })
     .then((data) => {
+      console.warn('data Login', data)
       if(data.errors){
         this.setState({
           isLoginError: true,
@@ -255,16 +257,18 @@ export default class Login extends Component {
       console.warn('Response data Signin', data)
     })
     .catch((err) => {
+      console.warn('data err', err)
       this.setState({
         isLoginError: true
       })
     })
   }
   sendRegister = () => {
-    fetch('http://localhost:3000/users/signup', {
+    fetch('http://192.168.1.18:3000/users/signup', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Accept:  'application/json'
       },
       body: JSON.stringify({
         email: this.inputEmail.state.value,

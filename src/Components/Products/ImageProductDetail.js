@@ -50,17 +50,20 @@ export default class ImageProductDetail extends Component {
                 ) : null}
                 </View>
                 <View style={styles.imagesContainer}>
-                <FlatList
-                    data={images}
-                    renderItem={({item, index}) => (
-                        <Image 
-                        source={item}
-                        style={styles.images}
-                        resizeMode={'contain'}
-                    />
-                    )}
-                    keyExtractor={item => item.id}
-                />
+                    <ScrollView
+                        showsHorizontalScrollIndicator={false}
+                        scrollEventThrottle={120}
+                        decelerationRate='fast'
+                    >
+                        { images && images.map((item, index)=> 
+                            <Image 
+                                source={item}
+                                style={styles.images}
+                                resizeMode={'contain'}
+                            />
+                        )
+                        }
+                    </ScrollView>
                 </View>
                 
             </View>
