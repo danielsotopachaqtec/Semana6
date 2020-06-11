@@ -1,4 +1,5 @@
 import React from 'react'
+import { Text, Platform } from 'react-native'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import Dashboard from '../Scenes/Dashboard';
 import Home from '../Scenes/Home';
@@ -6,6 +7,7 @@ import Intro from '../Scenes/Intro';
 import Products from '../Scenes/Products';
 import ProductsDetails from '../Scenes/ProductsDetails';
 import ProductAnimation from '../Scenes/ProductAnimation'
+import { MenuHeader } from '../Components/Menu/MenuHeader'
 const Stack = createStackNavigator();
 
 const MainStackNavigator = (props) => {
@@ -17,7 +19,8 @@ const MainStackNavigator = (props) => {
   return (
     <Stack.Navigator
         initialRouteName="Index"
-        headerMode="screen"
+        headerMode='float'
+        mode='card'
     >
       <Stack.Screen 
         name="Index"
@@ -39,11 +42,25 @@ const MainStackNavigator = (props) => {
       options={{ 
         cardStyleInterpolator: forFade,
         gestureEnabled: false,
-        headerLeft: ({ scene, previous, navigation }) => {
+        header: ({ scene, previous, navigation }) => {
+          console.warn('scene', scene)
+          console.warn('previous', previous)
+          // const { options } = scene.descriptor;
+          // const title =
+          // options.headerTitle !== undefined
+          //   ? options.headerTitle
+          //   : options.title !== undefined
+          //   ? options.title
+          //   : scene.route.name;
             return (
-              undefined
+              <MenuHeader 
+              title={'Dashboard'}
+              leftIcon={previous ? true : false}
+              navigation={navigation}
+              rightIcon={true}
+              />
             );
-          }
+          },
         }}
       />
       <Stack.Screen

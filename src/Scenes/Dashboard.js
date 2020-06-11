@@ -1,11 +1,12 @@
 import React , { useState, Component} from 'react';
-import { View, Dimensions, Animated, Text, SafeAreaView, StyleSheet, Button} from 'react-native'
+import { View, Dimensions, Animated, Text, SafeAreaView, StyleSheet, Button, StatusBar} from 'react-native'
 import MenuFooter from '../Components/Menu/MenuFooter'
 import { CommonActions } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        marginTop: 40,
         backgroundColor: '#F9F9F9'
     },
     containerSafeArea: {
