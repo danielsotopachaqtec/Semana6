@@ -20,7 +20,6 @@ const MainStackNavigator = (props) => {
     <Stack.Navigator
         initialRouteName="Index"
         headerMode='float'
-        mode='card'
     >
       <Stack.Screen 
         name="Index"
@@ -55,9 +54,8 @@ const MainStackNavigator = (props) => {
             return (
               <MenuHeader 
               title={'Dashboard'}
-              leftIcon={previous ? true : false}
+              // leftIcon={previous ? true : false}
               navigation={navigation}
-              rightIcon={true}
               />
             );
           },

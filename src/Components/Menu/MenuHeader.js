@@ -1,5 +1,5 @@
 import React from 'react'
-import {  View, Text, TouchableOpacity, StyleSheet, SafeAreaView} from 'react-native'
+import {  View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Platform} from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faAngleLeft, faBars, faCheck } from '@fortawesome/free-solid-svg-icons'
 
@@ -9,26 +9,32 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         backgroundColor: '#ffffff',
-        paddingVertical: 30,
-        justifyContent: 'center',
+        paddingTop: Platform.OS === 'ios' ? 20 : 5,
+        alignItems: 'center'
     },
     menuHamburger: {
-        flex: 0.3,
-        marginLeft: 10
+        flex: 0.2,
+        paddingVertical: 20,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     title: {
-        flex: 0.4,
+        flex: 0.6,
         justifyContent: 'center',
         alignItems: 'center'
     },
     titleText: {
-        color: '#212121'
+        fontSize: 16,
+        color: '#212121',
+        fontWeight: 'bold',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     leftIcon: {
-        flex: 1
+        flex: 0.1
     },
     rightIcon: {
-        flex: 0.3
+        flex: 1
     }
 })
 
@@ -39,20 +45,22 @@ const MenuHeader = (props) => {
     // }
     return(
             <View style={styles.container}>
-                <TouchableOpacity
-                        style={styles.leftIcon}
+            {leftIcon ? (
+                <View style={styles.leftIcon}>
+                    <TouchableOpacity 
                         onPress={() => navigation.goBack()}    
                     > 
-                    
                         <FontAwesomeIcon 
                             size={ 30 }
                             style={{ color: '#212121' }}
                             icon={ faAngleLeft }
                         />
-                </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.menuHamburger} 
-                        onPress={() => openDrawer()}    
+                    </TouchableOpacity> 
+                </View>
+            ): (
+                <View style={styles.menuHamburger}>
+                    <TouchableOpacity 
+                        onPress={() => navigation.openDrawer()}    
                     >
                         <FontAwesomeIcon 
                             icon={ faBars }
@@ -60,11 +68,14 @@ const MenuHeader = (props) => {
                             style={{ color: '#212121' }}
                         />
                     </TouchableOpacity> 
+                </View>
+            )}
                 <View style={styles.title}>
                     <Text style={styles.titleText} >{title}</Text>
                 </View>
+            {rightIcon ? (
+                <View style={styles.rightIcon}>
                 <TouchableOpacity 
-                    style={styles.rightIcon}
                     onPress={() => navigation.goBack()}    
                 >
                     <FontAwesomeIcon 
@@ -72,7 +83,9 @@ const MenuHeader = (props) => {
                         size={ 30 }
                         style={{ color: '#212121' }}
                     /> 
-                </TouchableOpacity>
+                </TouchableOpacity> 
+            </View>
+            ): null}  
             </View>
     )
 }

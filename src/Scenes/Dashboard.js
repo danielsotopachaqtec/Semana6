@@ -6,7 +6,6 @@ import { CommonActions } from '@react-navigation/native';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 40,
         backgroundColor: '#F9F9F9'
     },
     containerSafeArea: {
@@ -39,6 +38,7 @@ class Dashboard extends Component{
         const { navigation } = this.props;
         return (
             <SafeAreaView style={styles.containerSafeArea}>
+            <StatusBar barStyle='light-content' />
             <View style={styles.container}>
             <Text>This is the home screen of the app</Text>
           <Button
