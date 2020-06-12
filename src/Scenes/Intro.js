@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, FlatList, SafeAreaView } from 'react-native'
+import { View, Text, StyleSheet, FlatList, SafeAreaView, StatusBar } from 'react-native'
 import SliderFullView from '../Components/Sliders/SliderFullView'
 import ItemSlider from '../Components/Sliders/ItemSlider'
 import MenuFooter from '../Components/Menu/MenuFooter'
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 1
     },
     containerSafeArea: {
         flex: 1,
@@ -34,6 +34,7 @@ export default class Intro extends Component {
         return(
             <SafeAreaView style={styles.containerSafeArea}>
                 <View style={styles.container}>
+                    <StatusBar barStyle={'light-content'}/>
                     <SliderFullView>
                     <FlatList
                         data={sliders}

@@ -9,12 +9,12 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         backgroundColor: '#ffffff',
-        paddingTop: Platform.OS === 'ios' ? 20 : 5,
+        paddingTop: 20,
         alignItems: 'center'
     },
     menuHamburger: {
         flex: 0.2,
-        paddingVertical: 20,
+        paddingVertical: Platform.OS === 'ios' ? 20 : 0,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -31,27 +31,31 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     leftIcon: {
-        flex: 0.1
+        flex: 0.2,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     rightIcon: {
-        flex: 1
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })
 
 const MenuHeader = (props) => {
-    const { title, leftIcon, rightIcon, navigation } = props;
+    const { title, leftIcon, rightIcon, navigation, styleContainer } = props;
     // const openDrawer = () => {
 
     // }
     return(
-            <View style={styles.container}>
+            <View style={[styles.container, styleContainer]}>
             {leftIcon ? (
                 <View style={styles.leftIcon}>
                     <TouchableOpacity 
                         onPress={() => navigation.goBack()}    
                     > 
                         <FontAwesomeIcon 
-                            size={ 30 }
+                            size={ 25 }
                             style={{ color: '#212121' }}
                             icon={ faAngleLeft }
                         />
@@ -64,7 +68,7 @@ const MenuHeader = (props) => {
                     >
                         <FontAwesomeIcon 
                             icon={ faBars }
-                            size={ 30 }
+                            size={ 25 }
                             style={{ color: '#212121' }}
                         />
                     </TouchableOpacity> 

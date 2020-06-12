@@ -139,7 +139,7 @@ export default class Home extends Component {
         return(
             <SafeAreaView style={styles.containerSafeArea}>
                 <View style={styles.container}>
-                    <StatusBar barStyle={'light-content'}/>
+                    <StatusBar barStyle={'default'}/>
                     {images ? (
                         <FlatList
                         data={images}

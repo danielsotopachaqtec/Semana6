@@ -20,20 +20,31 @@ const MainStackNavigator = (props) => {
     <Stack.Navigator
         initialRouteName="Index"
         headerMode='float'
+        screenOptions={{
+          headerStyle: {
+            height: Platform.OS === 'ios' ? 80 : 65
+          }
+        }}
     >
-      <Stack.Screen 
-        name="Index"
-        component={Home}
-        options={{ 
+      <Stack.Screen
+        options={{
           cardStyleInterpolator: forFade,
           gestureEnabled: false,
-          header: ({ scene, previous, navigation }) => {
-            return (
-              undefined
-            );
-          }
-          }}
-
+          title: 'Home',
+          header : ({scene, previous, navigation}) => {
+          console.warn('scene', scene)
+          return (
+          <MenuHeader 
+            title={'Home'}
+            leftIcon={false}
+            navigation={navigation}
+            styleContainer={scene.descriptor.options.headerStyle}
+          />
+          )
+        }, 
+        }} 
+        name="Index"
+        component={Home}
       />
       <Stack.Screen
       name="Dashboard"
@@ -41,37 +52,32 @@ const MainStackNavigator = (props) => {
       options={{ 
         cardStyleInterpolator: forFade,
         gestureEnabled: false,
-        header: ({ scene, previous, navigation }) => {
+        header : ({scene, previous, navigation}) => {
           console.warn('scene', scene)
-          console.warn('previous', previous)
-          // const { options } = scene.descriptor;
-          // const title =
-          // options.headerTitle !== undefined
-          //   ? options.headerTitle
-          //   : options.title !== undefined
-          //   ? options.title
-          //   : scene.route.name;
-            return (
-              <MenuHeader 
-              title={'Dashboard'}
-              // leftIcon={previous ? true : false}
-              navigation={navigation}
-              />
-            );
-          },
+          return (
+          <MenuHeader 
+            title={scene.route.name}
+            // leftIcon={previous ? true : false}
+            navigation={navigation}
+            styleContainer={scene.descriptor.options.headerStyle}
+          />
+          )
+        },        
         }}
       />
       <Stack.Screen
-      name="Intro"
-      component={Intro}
-      options={{
-        cardStyleInterpolator: forFade,
-        gestureEnabled: false,
-        headerLeft: ({ scene, previous, navigation }) => {
-            return (
-              undefined
-            );
-          }}}
+        options={{
+          cardStyleInterpolator: forFade,
+          gestureEnabled: false,
+          header : ({scene, previous, navigation}) => <MenuHeader 
+            title={scene.route.name}
+            // leftIcon={previous ? true : false}
+            navigation={navigation}
+            styleContainer={scene.descriptor.options.headerStyle}
+          />
+        }}
+        name="Intro"
+        component={Intro}
       />
       <Stack.Screen
       name="Products"
@@ -79,37 +85,47 @@ const MainStackNavigator = (props) => {
       options={{ 
         cardStyleInterpolator: forFade,
         gestureEnabled: false,
-        headerLeft: ({ scene, previous, navigation }) => {
-            return (
-              undefined
-            );
-          }}}
+        header : ({scene, previous, navigation}) => <MenuHeader 
+            title={scene.route.name}
+            // leftIcon={previous ? true : false}
+            navigation={navigation}
+            styleContainer={scene.descriptor.options.headerStyle}
+          />
+      }}
       />
       <Stack.Screen
       name="ProductsDetails"
       component={ProductsDetails}
       options={{ 
         cardStyleInterpolator: forFade,
-        headerTitle: 'Product detail',
-        headerLeft: ({ scene, previous, navigation }) => {
-            return (
-              undefined
-            );
+        header : ({scene, previous, navigation}) => {
+          console.warn('scene', scene)
+          console.warn('navigation', navigation)
+        return (<MenuHeader 
+            title={scene.route.params.productName}
+            leftIcon={previous ? true : false}
+            navigation={navigation}
+            styleContainer={scene.descriptor.options.headerStyle}
+          />)
           }
-        }}
+      }}
       />
       <Stack.Screen
       name="ProductAnimation"
       component={ProductAnimation}
       options={{ 
         cardStyleInterpolator: forFade,
-        headerTitle: 'Products',
-        headerLeft: ({ scene, previous, navigation }) => {
-            return (
-              undefined
-            );
+        header : ({scene, previous, navigation}) => {
+          console.warn('scene', scene)
+          console.warn('navigation', navigation)
+        return (<MenuHeader 
+            title={scene.route.name}
+            leftIcon={previous ? true : false}
+            navigation={navigation}
+            styleContainer={scene.descriptor.options.headerStyle}
+          />)
           }
-        }}
+      }}
       />
     </Stack.Navigator>
   );

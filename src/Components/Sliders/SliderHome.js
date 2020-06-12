@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         // zIndex: 1,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
       },
       indicatorContainer: {
         position: 'relative',
