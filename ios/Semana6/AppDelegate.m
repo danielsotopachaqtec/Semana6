@@ -13,6 +13,7 @@
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 #import <GoogleMaps/GoogleMaps.h>
+#import "ReactNativeConfig.h"
 
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
@@ -32,7 +33,8 @@ static void InitializeFlipper(UIApplication *application) {
 #if DEBUG
   InitializeFlipper(application);
 #endif
-  [GMSServices provideAPIKey:@"AIzaSyD1ZgH415aRxBKuJU3rSzQZ27UDm380A58"];
+  NSString *googleAPIKey = [ReactNativeConfig envFor:@"googleAPIKey"];
+  [GMSServices provideAPIKey:googleAPIKey];
   [FIRApp configure];
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
