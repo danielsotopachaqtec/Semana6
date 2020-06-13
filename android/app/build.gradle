@@ -1,5 +1,4 @@
 apply plugin: "com.android.application"
-
 import com.android.build.OutputFile
 
 /**
@@ -82,7 +81,11 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
-
+project.ext.envConfigFiles = [
+        debug: ".env.development",
+        release: ".env.production"
+]
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 /**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices
@@ -96,7 +99,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 
 /**
  * The preferred build flavor of JavaScriptCore.
@@ -119,7 +122,9 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  * and the benefits of using Hermes will therefore be sharply reduced.
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
-
+def developmentPropertiesFile = rootProject.file("env.development.properties")
+def developmentProperties = new Properties()
+developmentProperties.load(new FileInputStream(developmentPropertiesFile))
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
@@ -198,6 +203,7 @@ dependencies {
        exclude group: 'com.google.android.gms', module: 'play-services-base'
        exclude group: 'com.google.android.gms', module: 'play-services-maps'
    }
+   implementation project(':react-native-config')
    implementation 'com.google.android.gms:play-services-base:17.2.1'
    implementation 'com.google.android.gms:play-services-maps:17.0.0'
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {

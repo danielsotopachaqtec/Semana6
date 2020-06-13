@@ -32,7 +32,7 @@ static void InitializeFlipper(UIApplication *application) {
 #if DEBUG
   InitializeFlipper(application);
 #endif
-  [GMSServices provideAPIKey:@"AIzaSyC-nB-N2q66EQQ7Xzdhj2CUQ1xiArwCGUw"];
+  [GMSServices provideAPIKey:@"AIzaSyD1ZgH415aRxBKuJU3rSzQZ27UDm380A58"];
   [FIRApp configure];
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
