@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, Platform } from 'react-native'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
-import Dashboard from '../Scenes/Dashboard';
+import Locations from '../Scenes/Locations';
 import Home from '../Scenes/Home';
 import Intro from '../Scenes/Intro';
 import Products from '../Scenes/Products';
@@ -47,8 +47,8 @@ const MainStackNavigator = (props) => {
         component={Home}
       />
       <Stack.Screen
-      name="Dashboard"
-      component={Dashboard}
+      name="Locations"
+      component={Locations}
       options={{ 
         cardStyleInterpolator: forFade,
         gestureEnabled: false,

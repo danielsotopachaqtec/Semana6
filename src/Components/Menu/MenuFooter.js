@@ -71,13 +71,13 @@ class MenuFooter extends Component {
                         <View style={styles.buttonFooter}>
                             <TouchableOpacity 
                                 style={styles.buttonFooter}
-                                onPress={() => this.onPressMenuFooter('Dashboard')} 
+                                onPress={() => this.onPressMenuFooter('Locations')} 
                             >
                                 <Image 
                                 style={styles.image}
-                                source={require('../../../assets/icons/017-tracking.png')}
+                                source={require('../../../assets/icons/010-location.png')}
                                 />
-                                <Text style={styles.title}>Dashboard</Text>
+                                <Text style={styles.title}>Locations</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.buttonFooter}>
