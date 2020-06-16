@@ -54,6 +54,7 @@ export default class ImageProductDetail extends Component {
                         showsHorizontalScrollIndicator={false}
                         scrollEventThrottle={120}
                         decelerationRate='fast'
+                        nestedScrollEnabled={true}
                     >
                         { images && images.map((item, index)=> 
                             <Image 

@@ -229,16 +229,16 @@ export default class Products extends Component {
     }
     render(){
         const { imagesProducts } = this.state
-        const { productPrice, qty, productName, description, imageProduct, colors } = this.props.route.params
+        const { price, qty, name, description, productImage, colors } = this.props.route.params
         return(
             <SafeAreaView style={styles.containerSafeArea}>
                 <ScrollView nestedScrollEnabled={true}>
                 <View style={styles.container}>
                     {imagesProducts ? (
-                        <ImageProductDetail image={imageProduct} images={imagesProducts}/>
+                        <ImageProductDetail image={{uri: productImage}} images={imagesProducts}/>
                     ) : null}
                     <Text style={styles.price}>
-                        {productPrice}
+                        {`$ ${price}`}
                     </Text>
                     { qty === 0 ? (
                         <Text style={styles.outStock}>
@@ -251,7 +251,7 @@ export default class Products extends Component {
                     )
                     }
                     <Text style={styles.title}>
-                    {productName}
+                    {name}
                     </Text>
                     <Text style={styles.subtitle}>
                     {description}

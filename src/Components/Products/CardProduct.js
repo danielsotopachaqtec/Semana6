@@ -23,19 +23,19 @@ const styles = StyleSheet.create({
     },
     containerImageProduct: {
         justifyContent: 'center',
-        alignItems:  'flex-end',
-        marginVertical: 5
+        alignItems:  'center',
+        marginTop:30
     },
     imageProduct: {
         width: 135,
-        height: 135,
+        height: 160,
         resizeMode: 'stretch',
     },
     containerDetails: {
         flex: 1,
         flexDirection: 'row',
         marginHorizontal: 15,
-        marginVertical: 5
+        marginTop: 20
     },
     productName: {
         flex: 0.6,
@@ -70,13 +70,6 @@ export default class CardProduct extends Component {
         return (
             <TouchableOpacity onPress={this.goToProduct}>
                 <View style={[styles.container, { backgroundColor: backgroundColor}]}>
-                    <View style={styles.containerImageBrand}>
-                        <Image
-                            source={imageBrand}
-                            style={styles.imageBrand}
-
-                        />
-                    </View>
                     <View style={styles.containerImageProduct}>
                         <Image
                             source={imageProduct}
