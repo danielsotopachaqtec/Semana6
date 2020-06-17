@@ -37,7 +37,6 @@ export default class ImageProductDetail extends Component {
     }
     render(){
         const { images, image }= this.props
-        console.warn('images', images)
         return(
             <View style={styles.container}>
                 <View style={styles.imageContainer}>

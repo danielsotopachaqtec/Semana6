@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, FlatList, Dimensions, SafeAreaView, ScrollView,
 import MenuFooter from '../Components/Menu/MenuFooter'
 import ImageProductDetail from '../Components/Products/ImageProductDetail';
 import { CardRelated } from '../Components/Products/CardRelated'
+import { ColorsProduct } from '../Components/Products/ColorsProduct'
+import Button from '../Components/Forms/Button'
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
@@ -51,6 +53,33 @@ const styles = StyleSheet.create({
         color: '#212121',
         marginTop: Platform.OS == 'ios' ? 0 : 10,
         marginBottom: 10
+    },
+    productDetailsContainer: {
+        flex: 1,
+        flexDirection: 'row'
+    },
+    productDetails: {
+        flex: 0.5
+    },
+    buyButtonContainer: {
+        flex: 0.5,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    buyButton: {
+        backgroundColor: '#93278f',
+        height: width * 0.15,
+        // paddingVertical: width * 0.01,
+        paddingHorizontal: width * 0.10,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: '#ffffff'
+    },
+    textBuyButton: {
+        color: '#ffffff',
+        fontWeight: 'bold',
+        fontSize: 15
     }
 })
 
@@ -210,16 +239,20 @@ export default class Products extends Component {
     constructor(props){
         super(props);
         this.state = {
-            imagesProducts: []
+            imagesProducts: [],
+            disabledButton: true,
+            colors: [],
+            showList: [],
+            selected: {},
         }
     }
     componentDidMount(){
-        const { imagesProducts } = this.props.route.params
-        console.warn('componentDidMount imagesProducts', imagesProducts)
-        console.warn('componentDidMount this.props.route', this.props.route)
+        const { imagesProducts, colors } = this.props.route.params
         this.setState({
-            imagesProducts: imagesProducts
+            imagesProducts: imagesProducts,
+            colors: colors
         })
+        this.createShowList(colors.length);
     }
     goToProduct = (item, index) => {
         console.warn('item', item)
@@ -227,9 +260,44 @@ export default class Products extends Component {
         // const { productDetail } = this.state;
         this.props.navigation.navigate('ProductsDetails', item)
     }
+    goToCart = () => {
+        console.warn('selected', this.state.selected)
+    }
+    createShowList = (length) => {
+        const showList = [];
+        for (let i = 0; i < length; i++) {
+          showList.push(false);
+        }
+        this.setState({
+          showList
+        });
+      };
+      updateShowList = (index) => {
+        let showList = [];
+        const { length } = this.state.showList;
+        if (this.state.showList[index] === true) {
+          showList = [...this.state.showList];
+          showList[index] = false;
+        } else {
+          for (let i = 0; i <= length; i++) {
+            if (i === index) showList.push(true);
+            else showList.push(false);
+          }
+        }
+        this.setState({
+          showList,
+        });
+      };
+    selectProduct = (item, index) => {
+        this.updateShowList(index);
+        this.setState({
+            selected: item,
+            disabledButton: this.state.showList[index]
+        });
+    }
     render(){
-        const { imagesProducts } = this.state
-        const { price, qty, name, description, productImage, colors } = this.props.route.params
+        const { imagesProducts, disabledButton, colors, showList } = this.state
+        const { price, qty, name, description, productImage } = this.props.route.params
         return(
             <SafeAreaView style={styles.containerSafeArea}>
                 <ScrollView nestedScrollEnabled={true}>
@@ -240,22 +308,35 @@ export default class Products extends Component {
                     <Text style={styles.price}>
                         {`$ ${price}`}
                     </Text>
-                    { qty === 0 ? (
-                        <Text style={styles.outStock}>
-                            Out stock
-                        </Text>
-                    ): (
-                        <Text style={styles.stock}>
-                            In Stock
-                        </Text>
-                    )
-                    }
-                    <Text style={styles.title}>
-                    {name}
-                    </Text>
-                    <Text style={styles.subtitle}>
-                    {description}
-                    </Text>
+                    <View style={styles.productDetailsContainer}>
+                        <View style={styles.productDetails}>
+                            { qty === 0 ? (
+                                <Text style={styles.outStock}>
+                                    Out stock
+                                </Text>
+                            ): (
+                                <Text style={styles.stock}>
+                                    In Stock
+                                </Text>
+                            )
+                            }
+                            <Text style={styles.title}>
+                            {name}
+                            </Text>
+                            <Text style={styles.subtitle}>
+                            {description}
+                            </Text>
+                        </View>
+                        <View style={styles.buyButtonContainer}>
+                            <Button 
+                            onPressButton={this.goToCart}
+                            styleButton={styles.buyButton}
+                            styleText={styles.textBuyButton}
+                            title={'Comprar'}
+                            disabled={disabledButton}
+                            />
+                        </View>
+                    </View>
                     <Text style={styles.colorTitle}>
                     {'Colors'}
                     </Text>
@@ -266,17 +347,13 @@ export default class Products extends Component {
                             scrollEventThrottle={120}
                             decelerationRate='fast'
                         >
-                            { colors && colors.map((color)=> 
-                                color.stock > 0 && <View style={{ 
-                                    backgroundColor: color.color, 
-                                    width: width * 0.13,
-                                    height: 55,
-                                    borderRadius: 40,
-                                    marginHorizontal: 10,
-                                    marginVertical: 10
-                                    }}>
-
-                                    </View>
+                            { colors && colors.map((item, index)=> 
+                                item.stock > 0 && 
+                                    <ColorsProduct 
+                                        color={item.color}
+                                        active={showList[index]}
+                                        onPress={() => this.selectProduct(item, index)}
+                                    />
                             )
                             }
                         </ScrollView>

@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         marginTop:30
     },
     imageProduct: {
-        width: 135,
+        width: 120,
         height: 160,
         resizeMode: 'stretch',
     },
