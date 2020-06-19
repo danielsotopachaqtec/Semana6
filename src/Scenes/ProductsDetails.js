@@ -261,7 +261,11 @@ export default class Products extends Component {
         this.props.navigation.navigate('ProductsDetails', item)
     }
     goToCart = () => {
-        console.warn('selected', this.state.selected)
+        const { selected } = this.state
+        this.props.navigation.navigate('ShoppingCart', {
+            product: this.props.route.params,
+            selectedProduct: selected
+        })
     }
     createShowList = (length) => {
         const showList = [];
