@@ -15,6 +15,7 @@ import {
 import Input from '../Components/Forms/Input';
 import Button from '../Components/Forms/Button'
 import CustomModal from '../Components/Modal/CustomModal'
+import Api from '../Api'
 import { TypingAnimation } from 'react-native-typing-animation'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
@@ -228,22 +229,13 @@ export default class Login extends Component {
   }
   sendLogin = () => {
     this._animation();
-    fetch('http://192.168.1.18:3000/users/signin', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept:  'application/json'
-      },
-      body: JSON.stringify({
+    const parameters = {
         email: this.inputEmail.state.value,
         password: this.inputPassword.state.value,
         phoneNumber: `+51${this.inputPhoneNumber.state.value.toString()}`,
         role: 'user'
-      })
-    })
-    .then((response)=> {
-      return response.json();
-    })
+    }
+    Api.LoginApi.signin(parameters)
     .then((data) => {
       console.warn('data Login', data)
       if(data.errors){
@@ -264,21 +256,13 @@ export default class Login extends Component {
     })
   }
   sendRegister = () => {
-    fetch('http://192.168.1.18:3000/users/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept:  'application/json'
-      },
-      body: JSON.stringify({
+    const parameters = {
         email: this.inputEmail.state.value,
         password: this.inputPassword.state.value,
-        phoneNumber: `+51${this.inputPhoneNumber.state.value.toString()}`
-      })
-    })
-    .then((response)=> {
-      return response.json();
-    })
+        phoneNumber: `+51${this.inputPhoneNumber.state.value.toString()}`,
+        role: 'user'
+    }
+    Api.LoginApi.signup(parameters)
     .then((data) => {
       if(data.errors){
         this.setState({
