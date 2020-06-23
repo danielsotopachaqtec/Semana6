@@ -130,7 +130,11 @@ export default class ShoppingCart extends Component {
         })
     }
     sendPayment = () => {
-        console.warn('sendPayment')
+        const { cardNumber,
+            cardHolder,
+            expireDate,
+            cvv } = this.state
+        
     }
     onChangeText = (value, type) => {
         if(type === 'cardNumber'){
