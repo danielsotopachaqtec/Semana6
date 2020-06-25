@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, FlatList, Dimensions, SafeAreaView, ScrollView, Platform } from 'react-native'
 import MenuFooter from '../Components/Menu/MenuFooter'
+import Input from '../Components/Forms/Input'
 import Button from '../Components/Forms/Button'
 import { CartItem } from '../Components/ShoppingCart/CartItem'
 import { DetailsPayment } from '../Components//ShoppingCart/DetailsPayment'
@@ -31,11 +32,10 @@ const styles = StyleSheet.create({
         color: '#cccccc',
         marginTop: 5
     },
-    title: {
-        fontSize: 20,
+    title: { 
         color: '#212121',
-        marginTop: 5,
-    },
+        fontWeight: 'bold'
+      },
     subtitle: {
         fontSize: 14,
         color: '#212121',
@@ -46,6 +46,10 @@ const styles = StyleSheet.create({
         color: '#212121',
         marginTop: 20
     },
+    action: {
+        borderBottomWidth: 1,
+        borderBottomColor: '#f2f2f2',
+      },
     relatedTitle: {
         fontSize: 18,
         color: '#212121',
@@ -73,6 +77,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         color: '#ffffff'
     },
+    textInput: {
+        marginTop: 5,
+        paddingBottom: 5,
+        color: '#212121',
+      },
     textBuyButton: {
         color: '#ffffff',
         fontWeight: 'bold',
@@ -80,7 +89,10 @@ const styles = StyleSheet.create({
     },
     detailContainer: {
         position: 'relative',
-        top: height * 0.30
+        marginVertical: 30
+    },
+    paymentContainer: {
+        marginHorizontal: 20
     }
 })
 
@@ -97,10 +109,36 @@ export default class ShoppingCart extends Component {
         const { product, selectedProduct } = this.props.route.params
         // console.warn('product ShoppingCart', product, 'selectedProduct ShoppingCart', selectedProduct)
         this.setState({
+            disabledButton: true,
             product: product,
-            selectedProduct: selectedProduct
+            selectedProduct: selectedProduct,
+            location: '',
+            message: ''
         })
     }
+    onChangeText = (value, type) => {
+        if(type === 'location'){
+          this.setState({ 
+            location: this.inputLocation.state.value
+          })
+        }
+        if(type === 'message') {
+          this.setState({
+            message: this.inputMessage.state.value
+          })
+        }
+        if(value.length > 0 && (this.inputLocation.state.validate &&
+            this.inputMessage.state.validate)
+            ){
+          this.setState({
+            disabledButton: false
+          })
+        } else {
+            this.setState({
+                disabledButton: true
+            })
+        }
+      }
     removeProduct = () => {
         this.setState({
             product: '',
@@ -108,14 +146,17 @@ export default class ShoppingCart extends Component {
         })
     }
     goToBuy = () => {
-        const { product, selectedProduct } = this.state
+        const { product, selectedProduct, location, message } = this.state
+        const params = product
+        params.location = location;
+        params.message = message
         this.props.navigation.navigate('PaymentMethods', {
-            product: product,
+            product: params,
             selectedProduct: selectedProduct
         })
     }
     render(){
-        const { product, selectedProduct } = this.state
+        const { product, selectedProduct, location, message, disabledButton } = this.state
         const { _id, color, stock} = selectedProduct
         const { price, qty, name, description, productImage } = product
         console.warn(price, qty, name, description, productImage)
@@ -139,11 +180,44 @@ export default class ShoppingCart extends Component {
                                     />
                                 
                             </View>
+                            <View style={styles.paymentContainer}>
+                            <>
+                                <View style={styles.action}>
+                                    <Input
+                                        label='Location'
+                                        labelStyle={styles.title}
+                                        value={location}
+                                        ref={(ref) => this.inputLocation = ref}
+                                        type='name'
+                                        placeholder=''
+                                        placeholderTextColor='#cccccc'
+                                        TextInputStyle={styles.textInput}
+                                        maxLength={90}
+                                        onChange={(value) => this.onChangeText(value, 'location')}
+                                    />
+                                </View>
+                                <View style={styles.action}>
+                                <Input 
+                                    label='Message'
+                                    labelStyle={styles.title}
+                                    value={message}
+                                    ref={(ref) => this.inputMessage = ref}
+                                    type='name'
+                                    placeholder=''
+                                    placeholderTextColor='#cccccc'
+                                    TextInputStyle={styles.textInput}
+                                    maxLength={120}
+                                    onChange={(value) => this.onChangeText(value, 'message')}
+                                    />
+                                </View>
+                                </>
+                            </View>
                             <View style={styles.detailContainer}>
                             <DetailsPayment 
                                 price={parseInt(price)}
                                 shipping={parseInt(8)}
                                 onPress={this.goToBuy}
+                                disabled={disabledButton}
                             />
                             </View>
                             </View>

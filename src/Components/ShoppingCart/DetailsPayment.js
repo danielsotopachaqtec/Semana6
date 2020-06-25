@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     buyButton: {
         width: '100%',
         backgroundColor: '#93278f',
-        height: height * 0.05,
+        height: 50,
         marginHorizontal: 30,
         borderRadius: 10,
         justifyContent: 'center',
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
 })
 
 const DetailsPayment = (props) => {
-    const { price, shipping, onPress} = props
+    const { price, shipping, onPress, disabled} = props
     const totalPayment = price + shipping
 
     const goToBuy = () => {
@@ -101,6 +101,7 @@ const DetailsPayment = (props) => {
                 styleButton={styles.buyButton}
                 styleText={styles.textBuyButton}
                 title={'Comprar'}
+                disabled={disabled}
                 />
             </View>
         </View>

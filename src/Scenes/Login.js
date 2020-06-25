@@ -20,6 +20,7 @@ import { TypingAnimation } from 'react-native-typing-animation'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import * as Animatable from 'react-native-animatable'
+import LocalStorage from '../Resource/Functions/local'
 
 const width = Dimensions.get('screen').width;
 const { height : viewPortHeight} = Dimensions.get('window');
@@ -243,6 +244,8 @@ export default class Login extends Component {
           isLoginError: true,
         })
       } else {
+        LocalStorage.setKeyStorage('token', data.token)
+        LocalStorage.setKeyStorage('userId', data.userId)
         this.props.navigation.navigate('Home', data)
         
       }

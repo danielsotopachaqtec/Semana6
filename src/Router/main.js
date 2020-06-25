@@ -10,6 +10,7 @@ import ProductAnimation from '../Scenes/ProductAnimation'
 import ShoppingCart from '../Scenes/ShoppingCart'
 import PaymentMethods from '../Scenes/PaymentMethods'
 import Checkout from '../Scenes/Checkout'
+import SuccessPayment from '../Scenes/SuccessPayment'
 import { MenuHeader } from '../Components/Menu/MenuHeader'
 const Stack = createStackNavigator();
 
@@ -136,8 +137,8 @@ const MainStackNavigator = (props) => {
       options={{ 
         cardStyleInterpolator: forFade,
         header : ({scene, previous, navigation}) => {
-          console.warn('scene', scene)
-          console.warn('navigation', navigation)
+          console.warn('scene PaymentMethods', scene)
+          console.warn('navigation PaymentMethods', navigation)
         return (<MenuHeader 
             title={'Payment Method'}
             leftIcon={previous ? true : false}
@@ -153,8 +154,8 @@ const MainStackNavigator = (props) => {
       options={{ 
         cardStyleInterpolator: forFade,
         header : ({scene, previous, navigation}) => {
-          console.warn('scene', scene)
-          console.warn('navigation', navigation)
+          console.warn('scene Checkout', scene)
+          console.warn('navigation Checkout', navigation)
         return (<MenuHeader 
             title={'Checkout'}
             leftIcon={previous ? true : false}
@@ -165,16 +166,16 @@ const MainStackNavigator = (props) => {
       }}
       />
       <Stack.Screen
-      name="ProductAnimation"
-      component={ProductAnimation}
+      name="SuccessPayment"
+      component={SuccessPayment}
       options={{ 
         cardStyleInterpolator: forFade,
         header : ({scene, previous, navigation}) => {
           console.warn('scene', scene)
-          console.warn('navigation', navigation)
+          console.warn('navigation SuccessPayment', navigation)
         return (<MenuHeader 
-            title={scene.route.name}
-            leftIcon={previous ? true : false}
+            title={'Checkout'}
+            leftIcon={false}
             navigation={navigation}
             styleContainer={scene.descriptor.options.headerStyle}
           />)

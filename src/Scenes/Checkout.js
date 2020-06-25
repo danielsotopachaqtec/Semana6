@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, FlatList, Dimensions, SafeAreaView, ScrollView, Platform } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, SafeAreaView, ScrollView, Platform } from 'react-native'
 import MenuFooter from '../Components/Menu/MenuFooter'
+import Api from '../Api'
 import Button from '../Components/Forms/Button'
 import Input from '../Components/Forms/Input'
+import CustomModal from '../Components/Modal/CustomModal'
 import { CardPayment } from '../Components//ShoppingCart/CardPayment'
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
+
 
 const styles = StyleSheet.create({
     container: {
@@ -80,7 +83,7 @@ const styles = StyleSheet.create({
     buyButton: {
         width: '100%',
         backgroundColor: '#93278f',
-        height: height * 0.05,
+        height: 50,
         marginHorizontal: 30,
         borderRadius: 10,
         justifyContent: 'center',
@@ -105,7 +108,20 @@ const styles = StyleSheet.create({
     },
     paymentContainer: {
         marginHorizontal: 20
-    }
+    },
+    buttonContainerModal: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#93278f',
+        marginTop: 18,
+        height: Platform.OS === 'android' ?  height * 0.08 : width * 0.12,
+        borderRadius: 5
+    },
+    textButtonModal: {
+        color: '#ffffff',
+        fontWeight: 'bold',
+        fontSize: 15
+    },
 })
 
 export default class ShoppingCart extends Component {
@@ -118,7 +134,8 @@ export default class ShoppingCart extends Component {
             cardNumber: '',
             cardHolder: '',
             expireDate: '',
-            cvv: ''
+            cvv: '',
+            isVisible: ''
         }
     }
     componentDidMount(){
@@ -133,18 +150,33 @@ export default class ShoppingCart extends Component {
         const { cardNumber,
             cardHolder,
             expireDate,
-            cvv } = this.state
-        
+            cvv,
+            product
+         } = this.state
+        const parameters = {
+            product: product._id,
+            quantity: 1,
+            details: product.message,
+            location: product.location,
+            totalPrice: product.price
+        }
+        Api.OrderApi.createOrder(parameters)
+        .then((data) => {
+            if(data.errors){
+                console.warn('data.errors', data.errors)
+                this.setState({
+                    isVisible: true
+                })
+            } else {
+                this.props.navigation.navigate('SuccessPayment')
+            }
+        })
+        .catch(err => {
+            console.warn('Response err', err) 
+        })
     }
     onChangeText = (value, type) => {
         if(type === 'cardNumber'){
-            console.warn('value.length onChange', value.length)
-            // if(value.length === 0) {
-            //     this.inputCardNumber.setState({
-            //         error: 'datos incorrectos.',
-            //         value
-            //     })
-            // }
           this.setState({ 
             cardNumber: this.inputCardNumber.state.value
           })
@@ -184,15 +216,8 @@ export default class ShoppingCart extends Component {
             selectedProduct: ''
         })
     }
-    goToPay = () => {
-        const { product, selectedProduct } = this.state
-        this.props.navigation.navigate('PaymentMethods', {
-            product: product,
-            selectedProduct: selectedProduct
-        })
-    }
     render(){
-        const { cardNumber, cardHolder, expireDate, cvv, disabledButton } = this.state
+        const { cardNumber, cardHolder, expireDate, cvv, disabledButton, isVisible } = this.state
         const { product, selectedProduct, paymentMethods } = this.props.route.params
         console.warn(product, selectedProduct, paymentMethods)
         return(
@@ -277,9 +302,26 @@ export default class ShoppingCart extends Component {
                                 </>
                             </View>
                         </View>
+                            <CustomModal
+                            visible={isVisible}
+                            backdrop={()=> this.setState({
+                                isVisible: false
+                            })}
+                            title={'Ha ocurrido un error'}
+                            message={'Intentelo mas tarde.'}
+                            iconError={true}
+                            >
+                            <Button 
+                                onPressButton={()=> this.setState({
+                                isVisible: false
+                                })}
+                                styleButton={styles.buttonContainerModal}
+                                styleText={styles.textButtonModal}
+                                title='Entendido'
+                            />
+                        </CustomModal>
                 </ScrollView>
             </SafeAreaView>
-            
         )
     }
 }

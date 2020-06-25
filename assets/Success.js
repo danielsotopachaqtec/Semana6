@@ -40,4 +40,9 @@ const xml = `
 </svg>
 `;
  
-export default () => <SvgXml xml={xml} width="65" height="65" />;
+export default Success = (props) => {
+	const { height, width } = props
+	return (
+		<SvgXml xml={xml} width={!width ? "65" : width} height={!height ? "65" : height} />
+	)
+}
