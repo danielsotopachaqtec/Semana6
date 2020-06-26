@@ -6,7 +6,8 @@ import Home from '../Scenes/Home';
 import Intro from '../Scenes/Intro';
 import Products from '../Scenes/Products';
 import ProductsDetails from '../Scenes/ProductsDetails';
-import ProductAnimation from '../Scenes/ProductAnimation'
+import Dashboard from '../Scenes/Dashboard'
+import OrderDetail from '../Scenes/OrderDetail'
 import ShoppingCart from '../Scenes/ShoppingCart'
 import PaymentMethods from '../Scenes/PaymentMethods'
 import Checkout from '../Scenes/Checkout'
@@ -49,6 +50,44 @@ const MainStackNavigator = (props) => {
         }} 
         name="Index"
         component={Home}
+      />
+      <Stack.Screen
+      name="Dashboard"
+      component={Dashboard}
+      options={{ 
+        cardStyleInterpolator: forFade,
+        gestureEnabled: false,
+        header : ({scene, previous, navigation}) => {
+          console.warn('scene', scene)
+          return (
+          <MenuHeader 
+            title={scene.route.name}
+            // leftIcon={previous ? true : false}
+            navigation={navigation}
+            styleContainer={scene.descriptor.options.headerStyle}
+          />
+          )
+        },        
+        }}
+      />
+      <Stack.Screen
+      name="OrderDetail"
+      component={OrderDetail}
+      options={{ 
+        cardStyleInterpolator: forFade,
+        gestureEnabled: false,
+        header : ({scene, previous, navigation}) => {
+          console.warn('scene', scene)
+          return (
+          <MenuHeader 
+            title={scene.route.params.name}
+            // leftIcon={previous ? true : false}
+            navigation={navigation}
+            styleContainer={scene.descriptor.options.headerStyle}
+          />
+          )
+        },        
+        }}
       />
       <Stack.Screen
       name="Locations"

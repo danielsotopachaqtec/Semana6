@@ -15,6 +15,19 @@ const OrderApi = {
         console.warn('parameters', parameters)
         const data = await FetchApi.post('/orders', parameters, config)
         return data
+    },
+    getOrders: async(parameters) => {
+        const token = await LocalStorage.getKeyStorage('token')
+        const userId = await LocalStorage.getKeyStorage('userId')
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}` 
+            }
+        }
+        console.warn('config', config)
+        console.warn('parameters', parameters)
+        const data = await FetchApi.get(`orders/user/${userId}`,config)
+        return data
     }
 }
 

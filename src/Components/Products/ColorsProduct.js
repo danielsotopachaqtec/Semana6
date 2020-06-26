@@ -5,7 +5,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons'
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     colorContainer: {
         width: width * 0.13,
         height: 55,
@@ -25,7 +25,7 @@ const ColorsProduct = (props) => {
     }
     return(
         <TouchableOpacity onPress={selectedProduct}>
-            <View style={[style.colorContainer, {backgroundColor: color} ]}>
+            <View style={[styles.colorContainer, {backgroundColor: color} ]}>
                 {active ? (
                     <FontAwesomeIcon 
                     icon={ faCheck }

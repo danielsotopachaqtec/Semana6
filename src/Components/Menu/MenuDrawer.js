@@ -63,16 +63,6 @@ const MenuDrawer = (props) => {
                             label='Products'
                             onPress={() => {props.navigation.navigate('Products')}}
                         />
-                        <DrawerItem
-                            icon={() => (
-                                <Image 
-                                style={styles.image}
-                                source={require('../../../assets/icons/033-envelope.png')}
-                                />
-                            )}
-                            label='Products Animation'
-                            onPress={() => {props.navigation.navigate('ProductAnimation')}}
-                        />
                     </View>
                 </DrawerContentScrollView>
             </View>

@@ -151,14 +151,16 @@ export default class ShoppingCart extends Component {
             cardHolder,
             expireDate,
             cvv,
-            product
+            product,
+            selectedProduct
          } = this.state
         const parameters = {
             product: product._id,
             quantity: 1,
             details: product.message,
             location: product.location,
-            totalPrice: product.price
+            totalPrice: product.price,
+            color: selectedProduct.color
         }
         Api.OrderApi.createOrder(parameters)
         .then((data) => {

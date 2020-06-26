@@ -25,7 +25,7 @@ const parseBody = async(res) => {
 }
 
 const parseError = async(error, status) => {
-    console.warn('error parseError', parseError, status)
+    console.warn('error parseError', error, status)
     switch(status){
         case undefined:
             return error
@@ -34,35 +34,35 @@ const parseError = async(error, status) => {
                 console.warn(result)
                 return {
                     errors: 'Probablemente tenemos inconvenientes con nuestro servicio, intentelo mas tarde',
-                    status: error.code
+                    status: error.data.status
                 }
             })
             .catch(error => {
-                if(error.code === 1000){
+                if(error.data.status === 1000){
                     return {
                         errors: 'Error de red',
-                        status: error.code
+                        status: error.data.status
                     }
                 }
             })
         case 400:
             return {
-                errors: error.message,
+                errors: error.data.message,
                 status
             }
         case 401:
             return {
-                errors: error.message,
+                errors: error.data.message,
                 status
             }
         case 403:
             return {
-                errors: error.message,
+                errors: error.data.message,
                 status
             }
         case 404:
             return {
-                errors: 'Peticion fallida, intente nuevamente',
+                errors: error.data.message,
                 status 
             }
         case 500:
@@ -84,22 +84,23 @@ const parseError = async(error, status) => {
 }
 
 const FetchApi = {
-    get: async(url) => {
-        return instance.get(url)
+    get: async(url, config) => {
+        return instance.get(url, config)
         .then(result => {
             return parseBody(result)
         })
         .catch(error => {
+            console.warn('FetchApi get error', error)
             try {
-                if(parseFloat(error.code) === 1000) {
+                if(parseFloat(error.response.status) === 1000) {
                     return {
                         errors: "Error de red",
-                        status: parseInt(error.code)
+                        status: parseInt(error.response.status)
                     }
                 }
-                return parseError(null, 500)
+                return parseError(error.response, error.response.status)
             } catch(e){
-                return parseError(null, 500)
+                return parseError(e.response, e.response.status)
             }
         })
     },
@@ -110,15 +111,15 @@ const FetchApi = {
         })
         .catch(error => {
             try {
-                if(parseFloat(error.code) === 1000) {
+                if(parseFloat(error.response.status) === 1000) {
                     return {
                         errors: "Error de red",
-                        status: parseInt(error.code)
+                        status: parseInt(error.response.status)
                     }
                 }
-                return parseError(null, 500)
+                return parseError(error.response, error.response.status)
             } catch(e){
-                return parseError(null, 500)
+                return parseError(e.response, e.response.status)
             }
         })
     },

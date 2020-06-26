@@ -57,7 +57,7 @@ export default class ImageProductDetail extends Component {
                     >
                         { images && images.map((item, index)=> 
                             <Image 
-                                source={item}
+                                source={{uri: item.url}}
                                 style={styles.images}
                                 resizeMode={'contain'}
                             />

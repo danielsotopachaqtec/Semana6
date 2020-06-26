@@ -100,6 +100,7 @@ const CartItem = (props) => {
                     <Text style={styles.price}>{`$ ${price}`}</Text>
                 ) : null}
             </View> 
+            {removeProduct ? (
                 <View style={styles.qty}> 
                     <TouchableOpacity onPress={removeProduct}>
                     <FontAwesomeIcon 
@@ -109,6 +110,7 @@ const CartItem = (props) => {
                         /> 
                     </TouchableOpacity>
                 </View>
+            ): null}
         </View>
     )
 }
