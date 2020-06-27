@@ -246,6 +246,7 @@ export default class Login extends Component {
       } else {
         LocalStorage.setKeyStorage('token', data.token)
         LocalStorage.setKeyStorage('userId', data.userId)
+        LocalStorage.setKeyStorage('email', data.email)
         this.props.navigation.navigate('Home', data)
         
       }

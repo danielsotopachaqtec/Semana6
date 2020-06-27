@@ -1,10 +1,11 @@
 const formatEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const formatPhone = /^\d{9}$/;
-const maxCharacterPhone = 9;
+const cvv = 3;
 const minCharacterCard = 15;
-const expireDate = 5;
+// const expireDate = /^\d(\/\d+)*$/;
+const expireDate = /^(0[1-9]|1[0-2])\/?([0-9]{2}|[0-9]{2})$/;
 const numbers = /^\d+$/;
-const name = /^[a-zA-Z ]*$/;
+const name = /^[a-zA-ZÀ-ú0-9]+( [a-zA-ZÀ-ú0-9]+)*$/;
 const formatPassword = /^(?=.*?[0-9])(?=.*?[A-Z])(?=.*?[#?!@$%^&*\-_]).{8,}$/;
 
 const Validator = (type, value) => {
@@ -46,11 +47,11 @@ const Validator = (type, value) => {
                 return { error: '' }
             }
             return {
-                error: 'por favor, ingrese solo letras',
+                error: 'formato incorrecto, ingrese números y letras',
                 value
             }
         case 'expireDate':
-            if(value.length === expireDate) {
+            if(expireDate.test(value)) {
                 return { error: '' }
             }
             return {
@@ -63,6 +64,14 @@ const Validator = (type, value) => {
             }
             return {
                 error: 'formato incorrecto',
+                value
+            }
+        case 'cvv':
+            if(value.length === cvv && numbers.test(value) ) {
+                return { error: '' }
+            }
+            return {
+                error: 'ccv incorrecto',
                 value
             }
         default:

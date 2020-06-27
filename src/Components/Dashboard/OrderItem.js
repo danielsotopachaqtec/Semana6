@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
         shadowRadius: 2.62,
 
         elevation: 4,
+        marginVertical: 5
     },
     containerImage: {
         flex: 0.3

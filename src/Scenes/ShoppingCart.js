@@ -68,25 +68,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    buyButton: {
-        backgroundColor: '#93278f',
-        height: width * 0.15,
-        paddingHorizontal: width * 0.10,
-        borderRadius: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        color: '#ffffff'
-    },
     textInput: {
         marginTop: 5,
         paddingBottom: 5,
         color: '#212121',
       },
-    textBuyButton: {
-        color: '#ffffff',
-        fontWeight: 'bold',
-        fontSize: 15
-    },
     detailContainer: {
         position: 'relative',
         marginVertical: 30

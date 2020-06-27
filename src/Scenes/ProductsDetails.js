@@ -65,21 +65,6 @@ const styles = StyleSheet.create({
         flex: 0.5,
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    buyButton: {
-        backgroundColor: '#93278f',
-        height: width * 0.15,
-        // paddingVertical: width * 0.01,
-        paddingHorizontal: width * 0.10,
-        borderRadius: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        color: '#ffffff'
-    },
-    textBuyButton: {
-        color: '#ffffff',
-        fontWeight: 'bold',
-        fontSize: 15
     }
 })
 
@@ -334,8 +319,6 @@ export default class Products extends Component {
                         <View style={styles.buyButtonContainer}>
                             <Button 
                             onPressButton={this.goToCart}
-                            styleButton={styles.buyButton}
-                            styleText={styles.textBuyButton}
                             title={'Comprar'}
                             disabled={disabledButton}
                             />

@@ -81,7 +81,7 @@ const MainStackNavigator = (props) => {
           return (
           <MenuHeader 
             title={scene.route.params.name}
-            // leftIcon={previous ? true : false}
+            leftIcon={previous ? true : false}
             navigation={navigation}
             styleContainer={scene.descriptor.options.headerStyle}
           />

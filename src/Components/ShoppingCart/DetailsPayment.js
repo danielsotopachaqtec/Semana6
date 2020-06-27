@@ -44,21 +44,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    buyButton: {
-        width: '100%',
-        backgroundColor: '#93278f',
-        height: 50,
-        marginHorizontal: 30,
-        borderRadius: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        color: '#ffffff'
-    },
-    textBuyButton: {
-        color: '#ffffff',
-        fontWeight: 'bold',
-        fontSize: 15
-    }
 })
 
 const DetailsPayment = (props) => {
@@ -98,8 +83,6 @@ const DetailsPayment = (props) => {
             <View style={styles.buyButtonContainer}>
                 <Button 
                 onPressButton={goToBuy}
-                styleButton={styles.buyButton}
-                styleText={styles.textBuyButton}
                 title={'Comprar'}
                 disabled={disabled}
                 />

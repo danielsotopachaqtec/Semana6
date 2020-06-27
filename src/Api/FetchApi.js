@@ -90,16 +90,17 @@ const FetchApi = {
             return parseBody(result)
         })
         .catch(error => {
-            console.warn('FetchApi get error', error)
+            console.warn('FetchApi get error', error.message)
             try {
-                if(parseFloat(error.response.status) === 1000) {
+                if(error.message) {
                     return {
                         errors: "Error de red",
-                        status: parseInt(error.response.status)
+                        status: 1000
                     }
                 }
                 return parseError(error.response, error.response.status)
             } catch(e){
+                console.warn('e',e )
                 return parseError(e.response, e.response.status)
             }
         })
@@ -111,10 +112,10 @@ const FetchApi = {
         })
         .catch(error => {
             try {
-                if(parseFloat(error.response.status) === 1000) {
+                if((error.message)) {
                     return {
                         errors: "Error de red",
-                        status: parseInt(error.response.status)
+                        status: 1000
                     }
                 }
                 return parseError(error.response, error.response.status)

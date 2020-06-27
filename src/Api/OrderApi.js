@@ -5,7 +5,9 @@ const OrderApi = {
     createOrder: async(parameters) => {
         const token = await LocalStorage.getKeyStorage('token')
         const userId = await LocalStorage.getKeyStorage('userId')
+        const email = await LocalStorage.getKeyStorage('email')
         parameters.user = userId
+        parameters.email = email
         const config = {
             headers: {
                 'Authorization': `Bearer ${token}` 

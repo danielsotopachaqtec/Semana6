@@ -80,21 +80,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 20
     },
-    buyButton: {
-        width: '100%',
-        backgroundColor: '#93278f',
-        height: 50,
-        marginHorizontal: 30,
-        borderRadius: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        color: '#ffffff'
-    },
-    textBuyButton: {
-        color: '#ffffff',
-        fontWeight: 'bold',
-        fontSize: 15
-    },
     secureCardData: {
         flex: 1,
         flexDirection: 'row'
@@ -135,7 +120,8 @@ export default class ShoppingCart extends Component {
             cardHolder: '',
             expireDate: '',
             cvv: '',
-            isVisible: ''
+            isVisible: '',
+            payment: {}
         }
     }
     componentDidMount(){
@@ -170,7 +156,25 @@ export default class ShoppingCart extends Component {
                     isVisible: true
                 })
             } else {
-                this.props.navigation.navigate('SuccessPayment')
+                Api.PaymentApi.payment(parameters)
+                .then((result) => {
+                    if(result.errors){
+                        console.warn('result.errors', result.errors)
+                        this.setState({
+                            isVisible: true
+                        })
+                    } else {
+                        this.setState({
+                            payment: result.data
+                        })
+                        this.props.navigation.navigate('SuccessPayment', {
+                            payment: this.state.payment
+                        })
+                    }
+                })
+                .catch(err => {
+                    console.warn('Response err', err) 
+                })
             }
         })
         .catch(err => {
@@ -282,7 +286,7 @@ export default class ShoppingCart extends Component {
                                         labelStyle={styles.title}
                                         value={cvv}
                                         ref={(ref) => this.inputCvv = ref}
-                                        type='number'
+                                        type='cvv'
                                         placeholder='XXX'
                                         placeholderTextColor='#cccccc'
                                         keyboardType='numeric'
@@ -295,8 +299,6 @@ export default class ShoppingCart extends Component {
                                 <View style={styles.buyButtonContainer}>
                                     <Button 
                                         onPressButton={this.sendPayment}
-                                        styleButton={styles.buyButton}
-                                        styleText={styles.textBuyButton}
                                         title={'Realizar pago'}
                                         disabled={disabledButton}
                                         />
