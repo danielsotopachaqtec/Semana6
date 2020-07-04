@@ -21,6 +21,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCheck} from '@fortawesome/free-solid-svg-icons';
 import * as Animatable from 'react-native-animatable';
 import LocalStorage from '../Resource/Functions/local';
+import {HeaderTitle} from '../Components/Login/HeaderTitle';
 
 const {width: viewPortWidth} = Dimensions.get('screen');
 const {height: viewPortHeight} = Dimensions.get('window');
@@ -47,6 +48,10 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#212121',
+    fontWeight: 'bold',
+  },
+  titleStyle:{
+    color: '#ffffff',
     fontWeight: 'bold',
   },
   action: {
@@ -337,20 +342,31 @@ export default class Login extends Component {
         style={styles.container}>
         <View style={styles.container}>
           <StatusBar barStyle="light-content" />
-          <View style={styles.header}>
+          {/* <View style={styles.header}>
             <ImageBackground
               source={require('../../assets/header.png')}
               style={styles.imageBackground}>
               <Text style={styles.text}>Welcome Back</Text>
               <Text style={styles.title}>Sign in to continue</Text>
             </ImageBackground>
-          </View>
+          </View> */}
+          <HeaderTitle
+            image={
+              'https://images.unsplash.com/photo-1505051508008-923feaf90180?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80'
+            }
+            // headerStyle
+            // imageStyle
+            text={'Welcome Back'}
+            title={'Sign in to continue'}
+            titleStyle={styles.titleStyle}
+          />
           <ScrollView style={styles.form}>
             <View style={styles.footer}>
               {signIn ? (
                 <>
                   <View style={styles.action}>
                     <Input
+                      testID={'emailTextField'}
                       label="E-mail"
                       labelStyle={styles.title}
                       value={email}

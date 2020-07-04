@@ -218,8 +218,8 @@ export default class ShoppingCart extends Component {
               </View>
               <View style={styles.detailContainer}>
                 <DetailsPayment
-                  price={parseInt(price, 2)}
-                  shipping={parseInt(8, 2)}
+                  price={parseInt(price, 10)}
+                  shipping={parseInt(8, 10)}
                   onPress={this.goToBuy}
                   disabled={disabledButton}
                 />

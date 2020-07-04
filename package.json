@@ -6,8 +6,8 @@
     "android": "ENVFILE=.env.development && react-native run-android",
     "ios": "ENVFILE=.env.development react-native run-ios",
     "start": "react-native start",
-    "test": "jest",
-    "lint": "eslint .",
+    "test": "jest tests/**/*.spec.js tests/**/**/*.spec.js",
+    "lint": "eslint *.js e2e/*.js tests/**/*.js",
     "pre-commit": "npm run lint",
     "pre-push": "npm test",
     "post-merge": "npm install",
@@ -46,15 +46,58 @@
     "@babel/core": "^7.9.6",
     "@babel/runtime": "^7.9.6",
     "@react-native-community/eslint-config": "^1.1.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.1.0",
     "babel-jest": "^26.0.0",
+    "babel-preset-react-native": "^4.0.1",
+    "chai": "^4.2.0",
+    "detox": "^17.0.2",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "enzyme-react-16-adapter-setup": "^0.1.0",
     "eslint": "^6.8.0",
+    "eslint-plugin-detox": "^1.0.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^23.17.1",
+    "eslint-plugin-react": "^7.20.3",
     "husky": "^4.2.5",
     "jest": "^26.0.0",
+    "jest-circus": "^26.1.0",
+    "jest-enzyme": "^7.1.2",
     "jetifier": "^1.6.6",
     "metro-react-native-babel-preset": "^0.59.0",
+    "mocha": "^8.0.1",
+    "react-addons-test-utils": "^15.6.2",
+    "react-dom": "^16.13.1",
+    "react-native-mock": "^0.3.1",
     "react-test-renderer": "16.11.0"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "setupFiles": [
+      "./tests/setup.js"
+    ]
+  },
+  "detox": {
+    "specs": "e2e",
+    "testRunner": "jest",
+    "runnerConfig": "e2e/config.json",
+    "configurations": {
+      "ios": {
+        "type": "ios.simulator",
+        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/Semana6.app",
+        "build": "xcodebuild -workspace ios/Semana6.xcworkspace -scheme Semana6 -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+        "device": {
+          "type": "iPhone 11"
+        }
+      },
+      "android": {
+        "type": "android.emulator",
+        "binaryPath": "./android/app/build/outputs/apk/release/app-release.apk",
+        "device": {
+          "avdName": "Pixel_API_29"
+        }
+      }
+    }
   }
 }
