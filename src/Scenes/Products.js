@@ -7,6 +7,8 @@ import {
   Dimensions,
   SafeAreaView,
 } from 'react-native';
+import {connect} from 'react-redux';
+import ProductAction from '../actions/ProductsAction';
 import {SliderHome} from '../Components/Sliders/SliderHome';
 import SliderFullView from '../Components/Sliders/SliderFullView';
 import CardProduct from '../Components/Products/CardProduct';
@@ -62,7 +64,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-export default class Products extends Component {
+class Products extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -70,22 +72,31 @@ export default class Products extends Component {
       productDetail: {},
     };
   }
-  componentDidMount() {
-    Api.ProductApi.getAllProduct()
-      .then((result) => {
-        console.warn('data Products', result);
-        if (result.errors) {
-          console.warn('data errors', result.errors);
-        } else {
-          this.setState({
-            products: result.data,
-          });
-        }
-        console.warn('Response data Products', result);
-      })
-      .catch((err) => {
-        console.warn('data err', err);
+  async componentDidMount() {
+    await this.props.getProducts();
+    const result = this.props.data;
+    if (result.errors) {
+      console.warn('data errors', result.errors);
+    } else {
+      this.setState({
+        products: result.products.data,
       });
+    }
+    // Api.ProductApi.getAllProduct()
+    //   .then((result) => {
+    //     console.warn('data Products', result);
+    //     if (result.errors) {
+    //       console.warn('data errors', result.errors);
+    //     } else {
+    //       this.setState({
+    //         products: result.data,
+    //       });
+    //     }
+    //     console.warn('Response data Products', result);
+    //   })
+    //   .catch((err) => {
+    //     console.warn('data err', err);
+    //   });
   }
   goToProduct = (item, index) => {
     console.warn('item', item);
@@ -127,3 +138,17 @@ export default class Products extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    data: state.productReducer,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getProducts: () => dispatch(ProductAction.getProducts()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Products);
