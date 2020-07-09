@@ -48,11 +48,17 @@ const MainStackNavigator = (props) => {
         },
       }}>
       <Stack.Screen name="Index" component={Home} options={{title: ''}} />
-      <Stack.Screen name="Dashboard" component={Dashboard} />
+      <Stack.Screen
+        name="Dashboard"
+        component={Dashboard}
+        options={{title: 'Orders'}}
+      />
       <Stack.Screen
         name="OrderDetail"
         component={OrderDetail}
-        options={{title: 'Orders'}}
+        options={({route}) => ({
+          title: route.params.name,
+        })}
       />
       <Stack.Screen name="Locations" component={Locations} />
       <Stack.Screen name="Intro" component={Intro} />
