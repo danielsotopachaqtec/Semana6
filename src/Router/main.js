@@ -24,211 +24,61 @@ const MainStackNavigator = (props) => {
   return (
     <Stack.Navigator
       initialRouteName="Index"
-      headerMode="float"
+      headerMode="screen"
       screenOptions={{
         headerStyle: {
           height: Platform.OS === 'ios' ? 80 : 65,
         },
+        cardStyleInterpolator: forFade,
+        header: ({scene, previous, navigation}) => {
+          const {options} = scene.descriptor;
+          const title =
+            options.headerTitle !== undefined
+              ? options.headerTitle
+              : options.title !== undefined
+              ? options.title
+              : scene.route.name;
+          return (
+            <MenuHeader
+              title={title}
+              navigation={navigation}
+              leftIcon={previous ? true : false}
+            />
+          );
+        },
       }}>
-      <Stack.Screen
-        options={{
-          cardStyleInterpolator: forFade,
-          gestureEnabled: false,
-          title: 'Home',
-          header: ({scene, previous, navigation}) => {
-            console.warn('scene', scene);
-            return (
-              <MenuHeader
-                title={'Home'}
-                leftIcon={false}
-                navigation={navigation}
-                styleContainer={scene.descriptor.options.headerStyle}
-              />
-            );
-          },
-        }}
-        name="Index"
-        component={Home}
-      />
-      <Stack.Screen
-        name="Dashboard"
-        component={Dashboard}
-        options={{
-          cardStyleInterpolator: forFade,
-          gestureEnabled: false,
-          header: ({scene, previous, navigation}) => {
-            console.warn('scene', scene);
-            return (
-              <MenuHeader
-                title={scene.route.name}
-                navigation={navigation}
-                styleContainer={scene.descriptor.options.headerStyle}
-              />
-            );
-          },
-        }}
-      />
+      <Stack.Screen name="Index" component={Home} options={{title: ''}} />
+      <Stack.Screen name="Dashboard" component={Dashboard} />
       <Stack.Screen
         name="OrderDetail"
         component={OrderDetail}
-        options={{
-          cardStyleInterpolator: forFade,
-          gestureEnabled: false,
-          header: ({scene, previous, navigation}) => {
-            console.warn('scene', scene);
-            return (
-              <MenuHeader
-                title={scene.route.params.name}
-                leftIcon={previous ? true : false}
-                navigation={navigation}
-                styleContainer={scene.descriptor.options.headerStyle}
-              />
-            );
-          },
-        }}
+        options={{title: 'Orders'}}
       />
-      <Stack.Screen
-        name="Locations"
-        component={Locations}
-        options={{
-          cardStyleInterpolator: forFade,
-          gestureEnabled: false,
-          header: ({scene, previous, navigation}) => {
-            console.warn('scene', scene);
-            return (
-              <MenuHeader
-                title={scene.route.name}
-                navigation={navigation}
-                styleContainer={scene.descriptor.options.headerStyle}
-              />
-            );
-          },
-        }}
-      />
-      <Stack.Screen
-        options={{
-          cardStyleInterpolator: forFade,
-          gestureEnabled: false,
-          header: ({scene, previous, navigation}) => (
-            <MenuHeader
-              title={scene.route.name}
-              navigation={navigation}
-              styleContainer={scene.descriptor.options.headerStyle}
-            />
-          ),
-        }}
-        name="Intro"
-        component={Intro}
-      />
-      <Stack.Screen
-        name="Products"
-        component={Products}
-        options={{
-          cardStyleInterpolator: forFade,
-          gestureEnabled: false,
-          header: ({scene, previous, navigation}) => (
-            <MenuHeader
-              title={scene.route.name}
-              navigation={navigation}
-              styleContainer={scene.descriptor.options.headerStyle}
-            />
-          ),
-        }}
-      />
+      <Stack.Screen name="Locations" component={Locations} />
+      <Stack.Screen name="Intro" component={Intro} />
+      <Stack.Screen name="Products" component={Products} />
       <Stack.Screen
         name="ProductsDetails"
         component={ProductsDetails}
-        options={{
-          cardStyleInterpolator: forFade,
-          header: ({scene, previous, navigation}) => {
-            console.warn('scene', scene);
-            console.warn('navigation', navigation);
-            return (
-              <MenuHeader
-                title={scene.route.params.name}
-                leftIcon={previous ? true : false}
-                navigation={navigation}
-                styleContainer={scene.descriptor.options.headerStyle}
-              />
-            );
-          },
-        }}
+        options={({route}) => ({
+          title: route.params.name,
+        })}
       />
       <Stack.Screen
         name="ShoppingCart"
         component={ShoppingCart}
-        options={{
-          cardStyleInterpolator: forFade,
-          header: ({scene, previous, navigation}) => {
-            console.warn('scene', scene);
-            console.warn('navigation', navigation);
-            return (
-              <MenuHeader
-                title={'Shopping Cart'}
-                leftIcon={previous ? true : false}
-                navigation={navigation}
-                styleContainer={scene.descriptor.options.headerStyle}
-              />
-            );
-          },
-        }}
+        options={{title: 'Cart'}}
       />
       <Stack.Screen
         name="PaymentMethods"
         component={PaymentMethods}
-        options={{
-          cardStyleInterpolator: forFade,
-          header: ({scene, previous, navigation}) => {
-            console.warn('scene PaymentMethods', scene);
-            console.warn('navigation PaymentMethods', navigation);
-            return (
-              <MenuHeader
-                title={'Payment Method'}
-                leftIcon={previous ? true : false}
-                navigation={navigation}
-                styleContainer={scene.descriptor.options.headerStyle}
-              />
-            );
-          },
-        }}
+        options={{title: 'Payment Methods'}}
       />
-      <Stack.Screen
-        name="Checkout"
-        component={Checkout}
-        options={{
-          cardStyleInterpolator: forFade,
-          header: ({scene, previous, navigation}) => {
-            console.warn('scene Checkout', scene);
-            console.warn('navigation Checkout', navigation);
-            return (
-              <MenuHeader
-                title={'Checkout'}
-                leftIcon={previous ? true : false}
-                navigation={navigation}
-                styleContainer={scene.descriptor.options.headerStyle}
-              />
-            );
-          },
-        }}
-      />
+      <Stack.Screen name="Checkout" component={Checkout} />
       <Stack.Screen
         name="SuccessPayment"
         component={SuccessPayment}
-        options={{
-          cardStyleInterpolator: forFade,
-          header: ({scene, previous, navigation}) => {
-            console.warn('scene', scene);
-            console.warn('navigation SuccessPayment', navigation);
-            return (
-              <MenuHeader
-                title={'Checkout'}
-                leftIcon={false}
-                navigation={navigation}
-                styleContainer={scene.descriptor.options.headerStyle}
-              />
-            );
-          },
-        }}
+        options={{title: ''}}
       />
     </Stack.Navigator>
   );

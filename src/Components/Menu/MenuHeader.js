@@ -5,12 +5,12 @@ import {faAngleLeft, faBars, faCheck} from '@fortawesome/free-solid-svg-icons';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     display: 'flex',
     flexDirection: 'row',
     backgroundColor: '#ffffff',
     paddingTop: 20,
     alignItems: 'center',
+    height: Platform.OS === 'ios' ? 80 : 65,
   },
   menuHamburger: {
     flex: 0.2,
@@ -46,9 +46,9 @@ const styles = StyleSheet.create({
 });
 
 const MenuHeader = (props) => {
-  const {title, leftIcon, rightIcon, navigation, styleContainer} = props;
+  const {title, leftIcon, rightIcon, navigation} = props;
   return (
-    <View style={[styles.container, styleContainer]}>
+    <View style={styles.container}>
       {leftIcon ? (
         <View style={styles.leftIcon}>
           <TouchableOpacity onPress={() => navigation.goBack()}>

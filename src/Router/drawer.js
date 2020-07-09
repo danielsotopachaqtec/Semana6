@@ -17,9 +17,6 @@ const DrawerStackNavigator = (props) => {
         <Drawer.Screen
           name="AuthStackNavigator"
           component={AuthStackNavigator}
-          options={{
-            gestureEnabled: false,
-          }}
         />
         <Drawer.Screen name="Home" component={MainStackNavigator} />
       </Drawer.Navigator>
