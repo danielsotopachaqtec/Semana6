@@ -7,6 +7,8 @@ import {
   ScrollView,
   Platform,
 } from 'react-native';
+import {connect} from 'react-redux';
+import Actions from '../actions/CartActions';
 import MenuFooter from '../Components/Menu/MenuFooter';
 import Input from '../Components/Forms/Input';
 import {CartItem} from '../Components/ShoppingCart/CartItem';
@@ -99,16 +101,24 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ShoppingCart extends Component {
+class ShoppingCart extends Component {
   constructor(props) {
     super(props);
     this.state = {
       disabledButton: true,
-      product: this.props.route.params.product,
+      product: [],
       selectedProduct: this.props.route.params.selectedProduct,
       location: '',
       message: '',
     };
+  }
+  async componentDidMount() {
+    await this.props.getCartProducts();
+    const result = this.props.data;
+    console.warn('result', result.cart);
+    this.setState({
+      product: result.cart,
+    });
   }
   onChangeText = (value, type) => {
     if (type === 'location') {
@@ -160,8 +170,6 @@ export default class ShoppingCart extends Component {
       disabledButton,
     } = this.state;
     const {color} = selectedProduct;
-    const {price, qty, name, description, productImage} = product;
-    console.warn(price, qty, name, description, productImage);
     return (
       <SafeAreaView style={styles.containerSafeArea}>
         <ScrollView nestedScrollEnabled={true}>
@@ -169,20 +177,18 @@ export default class ShoppingCart extends Component {
             <View style={styles.container}>
               <Text style={styles.title}>My cart</Text>
               <View style={styles.selectedProduct}>
-                {console.warn(
-                  'this.state.product',
-                  this.state.product ? 'Hola' : 'Bye',
-                )}
-
-                <CartItem
-                  productImage={productImage}
-                  productName={name}
-                  color={color}
-                  price={price}
-                  onPress={() => {
-                    this.removeProduct();
-                  }}
-                />
+                {product.length !== 0 &&
+                  product.map((item, index) => (
+                    <CartItem
+                      productImage={item.productImage}
+                      productName={item.name}
+                      color={color}
+                      price={item.price}
+                      onPress={() => {
+                        this.removeProduct();
+                      }}
+                    />
+                  ))}
               </View>
               <View style={styles.paymentContainer}>
                 <>
@@ -218,7 +224,7 @@ export default class ShoppingCart extends Component {
               </View>
               <View style={styles.detailContainer}>
                 <DetailsPayment
-                  price={parseInt(price, 10)}
+                  // price={parseInt(price, 10)}
                   shipping={parseInt(8, 10)}
                   onPress={this.goToBuy}
                   disabled={disabledButton}
@@ -236,3 +242,17 @@ export default class ShoppingCart extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    data: state.cartReducer,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getCartProducts: () => dispatch(Actions.getCartProducts()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShoppingCart);

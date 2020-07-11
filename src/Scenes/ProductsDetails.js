@@ -8,6 +8,8 @@ import {
   ScrollView,
   Platform,
 } from 'react-native';
+import {connect} from 'react-redux';
+import Actions from '../actions/CartActions';
 import MenuFooter from '../Components/Menu/MenuFooter';
 import ImageProductDetail from '../Components/Products/ImageProductDetail';
 import {CardRelated} from '../Components/Products/CardRelated';
@@ -348,7 +350,7 @@ const products = [
     color: '#ffa000',
   },
 ];
-export default class Products extends Component {
+class ProductsDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -370,15 +372,16 @@ export default class Products extends Component {
     this.createShowList(colors.length);
   }
   goToProduct = (item, index) => {
-    console.warn('item', item);
-    // const { navigation  = this.props;
-    // const { productDetail } = this.state;
     this.props.navigation.navigate('ProductsDetails', item);
   };
-  goToCart = () => {
+  goToCart = async () => {
     const {selected} = this.state;
+    const product = this.props.route.params;
+    await this.props.setCartProducts(product);
+    const cart = this.props.data;
+    console.warn('cart items:', cart);
     this.props.navigation.navigate('ShoppingCart', {
-      product: this.props.route.params,
+      product,
       selectedProduct: selected,
     });
   };
@@ -504,3 +507,17 @@ export default class Products extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    data: state.cartReducer,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setCartProducts: (data) => dispatch(Actions.setCartProduct(data)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductsDetails);

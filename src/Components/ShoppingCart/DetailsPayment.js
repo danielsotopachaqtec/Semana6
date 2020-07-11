@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 
 const DetailsPayment = (props) => {
   const {price, shipping, onPress, disabled} = props;
-  const totalPayment = price + shipping;
+  const totalPayment = price ? price + shipping : undefined;
 
   const goToBuy = () => {
     onPress && onPress();
@@ -65,9 +65,11 @@ const DetailsPayment = (props) => {
         <View style={styles.itemRow}>
           <Text style={styles.description}>Subtotal</Text>
         </View>
-        <View style={styles.itemRowEnd}>
-          <Text style={styles.value}>{`$ ${price.toFixed(2)}`}</Text>
-        </View>
+        {price ? (
+          <View style={styles.itemRowEnd}>
+            <Text style={styles.value}>{`$ ${price.toFixed(2)}`}</Text>
+          </View>
+        ) : null}
       </View>
       <View style={styles.itemContent}>
         <View style={styles.itemRow}>
@@ -81,9 +83,11 @@ const DetailsPayment = (props) => {
         <View style={styles.itemRow}>
           <Text style={styles.text}>Total</Text>
         </View>
-        <View style={styles.itemRowEnd}>
-          <Text style={styles.text}>{`$ ${totalPayment.toFixed(2)}`}</Text>
-        </View>
+        {totalPayment ? (
+          <View style={styles.itemRowEnd}>
+            <Text style={styles.text}>{`$ ${totalPayment.toFixed(2)}`}</Text>
+          </View>
+        ) : null}
       </View>
       <View style={styles.buyButtonContainer}>
         <Button onPressButton={goToBuy} title={'Comprar'} disabled={disabled} />
