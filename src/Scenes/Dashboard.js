@@ -9,6 +9,8 @@ import {
   ScrollView,
   Platform,
 } from 'react-native';
+import {connect} from 'react-redux';
+import Action from '../actions/OrdersAction';
 import MenuFooter from '../Components/Menu/MenuFooter';
 import Button from '../Components/Forms/Button';
 import CustomModal from '../Components/Modal/CustomModal';
@@ -50,7 +52,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class Dashboard extends Component {
+class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -59,31 +61,40 @@ export default class Dashboard extends Component {
       error: '',
     };
   }
-  componentDidMount() {
-    Api.OrderApi.getOrders()
-      .then((result) => {
-        if (result.errors) {
-          if (result.status === 404) {
-            this.setState({
-              error: result.errors,
-            });
-          } else {
-            console.warn('data.errors', result.errors);
-            this.setState({
-              isVisible: true,
-              error: result.errors,
-            });
-          }
-        } else {
-          this.setState({
-            orders: result.data,
-          });
-          console.warn('data Dashboard', result.data);
-        }
-      })
-      .catch((err) => {
-        console.warn('Response err', err);
+  async componentDidMount() {
+    await this.props.getOrders();
+    const result = this.props.data;
+    if (result.errors) {
+      console.warn('data errors', result.errors);
+    } else {
+      this.setState({
+        orders: result.orders.data,
       });
+    }
+    // Api.OrderApi.getOrders()
+    //   .then((result) => {
+    //     if (result.errors) {
+    //       if (result.status === 404) {
+    //         this.setState({
+    //           error: result.errors,
+    //         });
+    //       } else {
+    //         console.warn('data.errors', result.errors);
+    //         this.setState({
+    //           isVisible: true,
+    //           error: result.errors,
+    //         });
+    //       }
+    //     } else {
+    //       this.setState({
+    //         orders: result.data,
+    //       });
+    //       console.warn('data Dashboard', result.data);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.warn('Response err', err);
+    //   });
   }
   goToOrder = (item) => {
     this.props.navigation.navigate('OrderDetail', {
@@ -99,25 +110,20 @@ export default class Dashboard extends Component {
           <View style={styles.container}>
             <View style={styles.ordersContainer}>
               <Text style={styles.title}> My Orders</Text>
-              {orders.length !== 0 ? (
-                <FlatList
-                  data={orders}
-                  renderItem={({item, index}) => (
-                    <OrderItem
-                      productImage={item.product.productImage}
-                      productName={item.product.name}
-                      color={item.color}
-                      price={item.totalPrice}
-                      onPress={() => {
-                        this.goToOrder(item);
-                      }}
-                    />
-                  )}
-                  keyExtractor={(item) => item.id}
-                />
-              ) : (
-                <Text style={styles.title}> {error}</Text>
-              )}
+              {orders.length !== 0 &&
+                orders.map((item, index) => (
+                  <OrderItem
+                    key={index}
+                    productImage={item.product.productImage}
+                    productName={item.product.name}
+                    color={item.color}
+                    price={item.totalPrice}
+                    onPress={() => {
+                      this.goToOrder(item);
+                    }}
+                  />
+                ))}
+              {error ? <Text style={styles.title}> {error}</Text> : null}
             </View>
           </View>
         </ScrollView>
@@ -147,3 +153,17 @@ export default class Dashboard extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    data: state.ordersReducer,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getOrders: () => dispatch(Action.getOrders()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

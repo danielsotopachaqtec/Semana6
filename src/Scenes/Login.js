@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     color: '#212121',
     fontWeight: 'bold',
   },
-  titleStyle:{
+  titleStyle: {
     color: '#ffffff',
     fontWeight: 'bold',
   },
@@ -270,8 +270,7 @@ export default class Login extends Component {
         }
         console.warn('Response data Signin', data);
       })
-      .catch((err) => {
-        console.warn('data err', err);
+      .catch((error) => {
         this.setState({
           isLoginError: true,
         });

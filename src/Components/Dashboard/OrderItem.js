@@ -56,12 +56,12 @@ const styles = StyleSheet.create({
 });
 
 const OrderItem = (props) => {
-  const {productImage, productName, color, price, onPress} = props;
+  const {productImage, productName, color, price, onPress, key} = props;
   const gotoDetails = (item, index) => {
     onPress && onPress(item, index);
   };
   return (
-    <TouchableOpacity onPress={gotoDetails}>
+    <TouchableOpacity key={key} onPress={gotoDetails}>
       <View style={styles.container}>
         <View style={styles.containerImage}>
           {productImage ? (

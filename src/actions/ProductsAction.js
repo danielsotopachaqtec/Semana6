@@ -3,7 +3,7 @@ import Api from '../Api/ProductApi';
 
 const getProductsSuccess = (data) => {
   return {
-    type: Actions.FETCHING_PRODUCTS_SUCESSS,
+    type: Actions.FETCHING_PRODUCTS_SUCCESS,
     data,
   };
 };

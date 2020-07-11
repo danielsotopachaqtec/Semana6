@@ -1,22 +1,22 @@
 import Actions from '../../Resource/Actions';
 
 const initialState = {
-  products: [],
+  orders: [],
   errors: '',
 };
 
-const productReducer = (state = initialState, action) => {
+const ordersReducer = (state = initialState, action) => {
   switch (action.type) {
-    case Actions.FETCHING_PRODUCTS_SUCCESS:
+    case Actions.FETCHING_ORDERS_SUCCESS:
       return {
         ...state,
-        products: action.data,
+        orders: action.data,
         errors: '',
       };
-    case Actions.FETCHING_PRODUCTS_FAILURE:
+    case Actions.FETCHING_ORDERS_FAILURE:
       return {
         ...state,
-        products: [],
+        orders: [],
         errors: action.errors,
       };
     default:
@@ -24,4 +24,4 @@ const productReducer = (state = initialState, action) => {
   }
 };
 
-export default productReducer;
+export default ordersReducer;
