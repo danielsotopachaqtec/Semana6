@@ -377,11 +377,13 @@ class ProductsDetails extends Component {
   goToCart = async () => {
     const {selected} = this.state;
     const product = this.props.route.params;
-    await this.props.setCartProducts(product);
+    const products = {...product};
+    products.color = this.state.selected.color;
+    await this.props.setCartProducts(products);
     const cart = this.props.data;
     console.warn('cart items:', cart);
     this.props.navigation.navigate('ShoppingCart', {
-      product,
+      products,
       selectedProduct: selected,
     });
   };

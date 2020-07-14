@@ -20,7 +20,8 @@ const setCartProduct = (data) => {
     console.warn('setCartProduct', products);
     console.warn('setCartProduct data', data);
     if (products.length >= 0) {
-      let cartProducts = [...products, data];
+      const cartProducts = products.concat(data);
+      console.warn('cartProducts', cartProducts);
       dispatch(setCartSuccess(cartProducts));
     }
   };

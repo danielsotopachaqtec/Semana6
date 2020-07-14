@@ -110,6 +110,7 @@ class ShoppingCart extends Component {
       selectedProduct: this.props.route.params.selectedProduct,
       location: '',
       message: '',
+      total: '',
     };
   }
   async componentDidMount() {
@@ -119,7 +120,18 @@ class ShoppingCart extends Component {
     this.setState({
       product: result.cart,
     });
+    this.sumTotal(this.state.product);
   }
+  sumTotal = (products) => {
+    console.warn('products', products);
+    const total =
+      products.length > 1
+        ? products.reduce((prev, cur) => prev + cur.price, 0)
+        : products[0].price;
+    this.setState({
+      total,
+    });
+  };
   onChangeText = (value, type) => {
     if (type === 'location') {
       this.setState({
@@ -162,14 +174,8 @@ class ShoppingCart extends Component {
     });
   };
   render() {
-    const {
-      product,
-      selectedProduct,
-      location,
-      message,
-      disabledButton,
-    } = this.state;
-    const {color} = selectedProduct;
+    const {product, location, message, disabledButton, total} = this.state;
+    // const {color} = selectedProduct;
     return (
       <SafeAreaView style={styles.containerSafeArea}>
         <ScrollView nestedScrollEnabled={true}>
@@ -182,7 +188,7 @@ class ShoppingCart extends Component {
                     <CartItem
                       productImage={item.productImage}
                       productName={item.name}
-                      color={color}
+                      color={item.color}
                       price={item.price}
                       onPress={() => {
                         this.removeProduct();
@@ -224,7 +230,7 @@ class ShoppingCart extends Component {
               </View>
               <View style={styles.detailContainer}>
                 <DetailsPayment
-                  // price={parseInt(price, 10)}
+                  price={total}
                   shipping={parseInt(8, 10)}
                   onPress={this.goToBuy}
                   disabled={disabledButton}
