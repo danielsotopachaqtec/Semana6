@@ -9,7 +9,6 @@ const instance = axios.create({
   },
 });
 const parseBody = async (res) => {
-  console.warn('res.status parseBody', res);
   if (res.status) {
     try {
       if (res.status === 200 || res.status === 201) {
@@ -25,13 +24,11 @@ const parseBody = async (res) => {
 };
 
 const parseError = async (error, status) => {
-  console.warn('error parseError', error, status);
   switch (status) {
     case undefined:
       return error
         .text()
         .then((result) => {
-          console.warn(result);
           return {
             errors:
               'Probablemente tenemos inconvenientes con nuestro servicio, intentelo mas tarde',
@@ -93,7 +90,6 @@ const FetchApi = {
         return parseBody(result);
       })
       .catch((error) => {
-        console.warn('FetchApi get error', error);
         try {
           if (error.response.status === 1000) {
             return {
@@ -103,7 +99,6 @@ const FetchApi = {
           }
           return parseError(error.response, error.response.status);
         } catch (e) {
-          console.warn('e', e);
           return parseError(e.response, e.response.status);
         }
       });
@@ -117,16 +112,13 @@ const FetchApi = {
       .catch((error) => {
         try {
           if (error.response.status === 1000) {
-            console.warn('FetchApi post error', error);
             return {
               errors: 'Error de red',
               status: 1000,
             };
           }
-          console.warn('FetchApi post return', error, error.response);
           return parseError(error.response, error.response.status);
         } catch (e) {
-          console.warn('FetchApi post catch', e.response.status);
           return parseError(e.response, e.response.status);
         }
       });

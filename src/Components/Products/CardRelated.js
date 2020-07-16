@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
   imageProduct: {
     width: 70,
-    height: 70,
+    height: 90,
     resizeMode: 'stretch',
   },
   productContainer: {
@@ -57,7 +57,6 @@ const CardRelated = (props) => {
     onPress,
   } = props;
   const goToProduct = (item, index) => {
-    console.warn(' this.props.goToProduct Function', onPress);
     onPress && onPress(item, index);
   };
   return (

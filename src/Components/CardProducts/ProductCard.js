@@ -19,7 +19,6 @@ const style = StyleSheet.create({
 
 const ProductCard = (props) => {
   const {item, y, index, onPress} = props;
-  console.warn('onPress', onPress);
   const position = Animated.subtract(index * PRODUCT_HEIGHT, y);
   const isDisappearing = -PRODUCT_HEIGHT;
   const isTop = 0;
@@ -50,7 +49,6 @@ const ProductCard = (props) => {
     outputRange: [0.5, 1, 1, 0.5],
   });
   const goToProduct = (items, idx) => {
-    console.warn(' this.props.goToProduct Function', onPress(items, idx));
     return onPress && onPress(items, idx);
   };
   return (

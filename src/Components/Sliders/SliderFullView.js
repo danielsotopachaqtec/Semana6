@@ -27,7 +27,6 @@ export default class SliderFullView extends Component {
         scrollIndicatorInsets={scrollIndicator ? styles.scrollIndicator : {}}
         onScroll={(event) => {
           let logData = `Scrolled to x = ${event.nativeEvent.contentOffset.x}, y = ${event.nativeEvent.contentOffset.y}`;
-          console.warn(logData);
         }}
         scrollEventThrottle={10}>
         {children}

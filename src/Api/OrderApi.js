@@ -13,8 +13,6 @@ const OrderApi = {
         Authorization: `Bearer ${token}`,
       },
     };
-    console.warn('config', config);
-    console.warn('parameters', parameters);
     const data = await FetchApi.post('/orders', parameters, config);
     return data;
   },
@@ -26,8 +24,6 @@ const OrderApi = {
         Authorization: `Bearer ${token}`,
       },
     };
-    console.warn('config', config);
-    console.warn('parameters', parameters);
     const data = await FetchApi.get(`orders/user/${userId}`, config);
     return data;
   },

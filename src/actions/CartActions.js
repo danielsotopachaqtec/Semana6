@@ -17,11 +17,8 @@ const getCartSuccess = (data) => {
 const setCartProduct = (data) => {
   return async (dispatch, getState) => {
     const products = await getState().cartReducer.cart;
-    console.warn('setCartProduct', products);
-    console.warn('setCartProduct data', data);
     if (products.length >= 0) {
       const cartProducts = products.concat(data);
-      console.warn('cartProducts', cartProducts);
       dispatch(setCartSuccess(cartProducts));
     }
   };

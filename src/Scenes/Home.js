@@ -77,21 +77,7 @@ export default class Home extends Component {
   }
   async componentDidMount() {
     try {
-      console.warn('this.props Home', this.props.route);
-      // await remoteConfig().setConfigSettings({
-      //     isDeveloperModeEnabled: true,
-      //   });
-      // await remoteConfig().fetch(300);
-      // const enablePost = remoteConfig().getValue('enable_post');
-      // if (enablePost.source === 'remote') {
-      //     console.warn('Parameter value was from the Firebase servers.');
-      //   } else if (enablePost.source === 'default') {
-      //     console.warn('Parameter value was from a default value.');
-      //   } else {
-      //     console.warn('Parameter value was from a locally cached value.');
-      //   }
       const parameters = await remoteConfig().getAll();
-      console.warn('parameters', parameters);
       let data = {};
       Object.entries(parameters).forEach(([key, parameter]) => {
         data[key] = parameters[key].value;
@@ -119,11 +105,9 @@ export default class Home extends Component {
       unsplash.photos
         .getRandomPhoto({count: 10})
         .then((res) => {
-          console.warn('res', res);
           return res.json();
         })
         .then((json) => {
-          console.warn('json', json);
           const imagesJson = json.map((item) => {
             return item;
           });
@@ -147,8 +131,6 @@ export default class Home extends Component {
   };
   render() {
     const {isFetching, images, isVisible, maintenance} = this.state;
-    console.warn('isFetching', isFetching);
-    console.warn('this.props Navigation Home', this.props.route.params);
     return (
       <SafeAreaView style={styles.containerSafeArea}>
         <View style={styles.container}>

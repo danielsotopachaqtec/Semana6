@@ -71,30 +71,6 @@ class Dashboard extends Component {
         orders: result.orders.data,
       });
     }
-    // Api.OrderApi.getOrders()
-    //   .then((result) => {
-    //     if (result.errors) {
-    //       if (result.status === 404) {
-    //         this.setState({
-    //           error: result.errors,
-    //         });
-    //       } else {
-    //         console.warn('data.errors', result.errors);
-    //         this.setState({
-    //           isVisible: true,
-    //           error: result.errors,
-    //         });
-    //       }
-    //     } else {
-    //       this.setState({
-    //         orders: result.data,
-    //       });
-    //       console.warn('data Dashboard', result.data);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.warn('Response err', err);
-    //   });
   }
   goToOrder = (item) => {
     this.props.navigation.navigate('OrderDetail', {

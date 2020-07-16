@@ -62,10 +62,8 @@ const styles = StyleSheet.create({
 });
 export const CardProduct = (props) => {
   const {item, onPress} = props;
-  console.warn('CardProduct type', item);
   const {imageBrand, imageProduct, productName, productPrice, color} = item;
   const goToProduct = (items, index) => {
-    console.warn(' this.props.CardProduct Function', onPress());
     return onPress();
   };
   return (

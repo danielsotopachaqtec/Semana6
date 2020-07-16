@@ -19,7 +19,6 @@ const style = StyleSheet.create({
 
 const CardListPayment = (props) => {
   const {item, y, index, onPress} = props;
-  console.warn('onPress', onPress);
   const position = Animated.subtract(index * PRODUCT_HEIGHT, y);
   const isDisappearing = -PRODUCT_HEIGHT;
   const isTop = 0;

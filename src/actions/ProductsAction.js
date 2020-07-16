@@ -15,6 +15,52 @@ const getProductsFailure = (errors) => {
   };
 };
 
+const setLastestProducts = (data) => {
+  return {
+    type: Actions.SET_LASTEST_PRODUCTS,
+    data,
+  };
+};
+
+const unsetLastestProducts = () => {
+  return {
+    type: Actions.UNSET_LASTEST_PRODUCTS,
+  };
+};
+
+const getLastestProducts = (data) => {
+  return {
+    type: Actions.GET_LASTEST_PRODUCTS,
+    data,
+  };
+};
+
+const getAllLastestProducts = () => {
+  return async (dispatch, getState) => {
+    const products = await getState().productReducer.lastestProducts;
+    dispatch(getLastestProducts(products));
+  };
+};
+
+const addLastestProducts = (data) => {
+  return async (dispatch, getState) => {
+    const products = await getState().productReducer.lastestProducts;
+    const exist = products.filter((product) => product._id === data._id);
+
+    console.warn('exist', exist);
+    if (exist.length === 0) {
+      const lastestProducts = products.concat(data);
+      dispatch(setLastestProducts(lastestProducts));
+    }
+  };
+};
+
+const removeLastestProducts = (data) => {
+  return async (dispatch, getState) => {
+    dispatch(unsetLastestProducts());
+  };
+};
+
 const getProducts = () => {
   return async (dispatch, getState) => {
     // const products = getState().productReducer;
@@ -29,4 +75,7 @@ const getProducts = () => {
 
 export default {
   getProducts,
+  addLastestProducts,
+  removeLastestProducts,
+  getAllLastestProducts,
 };

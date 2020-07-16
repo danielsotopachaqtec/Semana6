@@ -66,7 +66,6 @@ export default class CardProduct extends Component {
     this.state = {};
   }
   goToProduct = (item, index) => {
-    console.warn(' this.props.goToProduct Function', this.props.onPress);
     this.props.onPress && this.props.onPress(item, index);
   };
   render() {

@@ -61,7 +61,6 @@ export default class Products extends Component {
   componentDidMount() {}
   render() {
     const {order} = this.state;
-    console.warn('order', order.product);
     return (
       <SafeAreaView style={styles.containerSafeArea}>
         <ScrollView nestedScrollEnabled={true}>

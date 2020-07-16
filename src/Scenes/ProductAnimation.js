@@ -333,7 +333,6 @@ const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 const ProductAnimation = (props) => {
   const goToProduct = (item, index) => {
-    console.warn('props.navigation', props.navigation);
     props.navigation.navigate('ProductsDetails', item);
   };
   const y = new Animated.Value(0);

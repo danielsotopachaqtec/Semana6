@@ -116,14 +116,12 @@ class ShoppingCart extends Component {
   async componentDidMount() {
     await this.props.getCartProducts();
     const result = this.props.data;
-    console.warn('result', result.cart);
     this.setState({
       product: result.cart,
     });
     this.sumTotal(this.state.product);
   }
   sumTotal = (products) => {
-    console.warn('products', products);
     const total =
       products.length > 1
         ? products.reduce((prev, cur) => prev + cur.price, 0)

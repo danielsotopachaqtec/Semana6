@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
 const CartItem = (props) => {
   const {productImage, productName, color, price, onPress} = props;
   const removeProduct = (item, index) => {
-    console.warn('removeProduct', removeProduct);
     onPress && onPress(item, index);
   };
   return (

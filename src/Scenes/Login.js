@@ -197,7 +197,6 @@ export default class Login extends Component {
   };
 
   focus = (value) => {
-    console.warn('value', value);
     if (value === 'email') {
       this.setState({
         typingEmail: true,
@@ -257,7 +256,6 @@ export default class Login extends Component {
     };
     Api.LoginApi.signin(parameters)
       .then((data) => {
-        console.warn('data Login', data);
         if (data.errors) {
           this.setState({
             isLoginError: true,
@@ -268,7 +266,6 @@ export default class Login extends Component {
           LocalStorage.setKeyStorage('email', data.email);
           this.props.navigation.navigate('Home', data);
         }
-        console.warn('Response data Signin', data);
       })
       .catch((error) => {
         this.setState({
@@ -299,7 +296,6 @@ export default class Login extends Component {
             typingPhoneNumber: false,
           });
         }
-        console.warn('Response data Signup', data);
       })
       .catch((err) => {
         if (err) {

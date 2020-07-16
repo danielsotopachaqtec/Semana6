@@ -82,27 +82,14 @@ class Products extends Component {
         products: result.products.data,
       });
     }
-    // Api.ProductApi.getAllProduct()
-    //   .then((result) => {
-    //     console.warn('data Products', result);
-    //     if (result.errors) {
-    //       console.warn('data errors', result.errors);
-    //     } else {
-    //       this.setState({
-    //         products: result.data,
-    //       });
-    //     }
-    //     console.warn('Response data Products', result);
-    //   })
-    //   .catch((err) => {
-    //     console.warn('data err', err);
-    //   });
   }
-  goToProduct = (item, index) => {
-    console.warn('item', item);
+  goToProduct = async (item, index) => {
+    console.warn('item', item.productImage);
+    const product = {...item};
+    await this.props.setLastestProducts(product);
     // const { navigation  = this.props;
     // const { productDetail } = this.state;
-    this.props.navigation.navigate('ProductsDetails', item);
+    this.props.navigation.navigate('ProductsDetails', product);
   };
   render() {
     const {products} = this.state;
@@ -148,6 +135,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getProducts: () => dispatch(ProductAction.getProducts()),
+    setLastestProducts: (data) =>
+      dispatch(ProductAction.addLastestProducts(data)),
   };
 };
 

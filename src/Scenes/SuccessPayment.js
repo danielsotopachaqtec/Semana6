@@ -51,7 +51,6 @@ export default class SuccessPayment extends Component {
     super(props);
   }
   goHome = () => {
-    console.warn('this.props', this.props);
     this.props.navigation.navigate('Index');
   };
   render() {

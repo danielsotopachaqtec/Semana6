@@ -8,7 +8,6 @@ import {NavigationContainer} from '@react-navigation/native';
 const Drawer = createDrawerNavigator();
 
 const DrawerStackNavigator = (props) => {
-  console.warn('props', props);
   return (
     <NavigationContainer>
       <Drawer.Navigator

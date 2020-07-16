@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
 const ColorsProduct = (props) => {
   const {color, onPress, active} = props;
   const selectedProduct = (item, index) => {
-    console.warn(' this.props.selected Function', onPress);
     onPress && onPress(item, index);
   };
   return (

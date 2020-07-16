@@ -28,7 +28,6 @@ class Locations extends Component {
 
     Geolocation.getCurrentPosition(
       (position) => {
-        console.warn(position);
         this.setState({
           region: {
             longitude: position.coords.longitude,

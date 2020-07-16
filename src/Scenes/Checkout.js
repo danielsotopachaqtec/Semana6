@@ -149,7 +149,6 @@ export default class ShoppingCart extends Component {
     Api.OrderApi.createOrder(parameters)
       .then((data) => {
         if (data.errors) {
-          console.warn('data.errors', data.errors);
           this.setState({
             isVisible: true,
           });
@@ -157,7 +156,6 @@ export default class ShoppingCart extends Component {
           Api.PaymentApi.payment(parameters)
             .then((result) => {
               if (result.errors) {
-                console.warn('result.errors', result.errors);
                 this.setState({
                   isVisible: true,
                 });
@@ -232,7 +230,6 @@ export default class ShoppingCart extends Component {
       isVisible,
     } = this.state;
     const {product, selectedProduct, paymentMethods} = this.props.route.params;
-    console.warn(product, selectedProduct, paymentMethods);
     return (
       <SafeAreaView style={styles.containerSafeArea}>
         <ScrollView>
