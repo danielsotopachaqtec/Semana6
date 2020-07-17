@@ -155,11 +155,13 @@ class ShoppingCart extends Component {
       });
     }
   };
-  removeProduct = () => {
+  removeProduct = async (id) => {
+    await this.props.removeCartProductById(id);
+    const result = this.props.data;
     this.setState({
-      product: '',
-      selectedProduct: '',
+      product: result.cart,
     });
+    this.sumTotal(this.state.product);
   };
   goToBuy = () => {
     const {product, selectedProduct, location, message} = this.state;
@@ -173,11 +175,10 @@ class ShoppingCart extends Component {
   };
   render() {
     const {product, location, message, disabledButton, total} = this.state;
-    // const {color} = selectedProduct;
     return (
       <SafeAreaView style={styles.containerSafeArea}>
         <ScrollView nestedScrollEnabled={true}>
-          {this.state.product ? (
+          {this.state.product.length > 0 ? (
             <View style={styles.container}>
               <Text style={styles.title}>My cart</Text>
               <View style={styles.selectedProduct}>
@@ -186,10 +187,10 @@ class ShoppingCart extends Component {
                     <CartItem
                       productImage={item.productImage}
                       productName={item.name}
-                      color={item.color}
+                      color={item.selectedColor.color}
                       price={item.price}
                       onPress={() => {
-                        this.removeProduct();
+                        this.removeProduct(item.selectedId);
                       }}
                     />
                   ))}
@@ -256,6 +257,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getCartProducts: () => dispatch(Actions.getCartProducts()),
+    removeCartProductById: (id) => dispatch(Actions.removeCartProductsById(id)),
   };
 };
 

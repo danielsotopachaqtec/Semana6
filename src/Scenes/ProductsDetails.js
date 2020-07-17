@@ -8,6 +8,7 @@ import {
   ScrollView,
   Platform,
 } from 'react-native';
+import CustomModal from '../Components/Modal/CustomModal';
 import {connect} from 'react-redux';
 import cartActions from '../actions/CartActions';
 import productActions from '../actions/ProductsAction';
@@ -18,6 +19,7 @@ import {ColorsProduct} from '../Components/Products/ColorsProduct';
 import Button from '../Components/Forms/Button';
 
 const height = Dimensions.get('window').height;
+const width = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
@@ -80,6 +82,25 @@ const styles = StyleSheet.create({
   productContainer: {
     flex: 1,
   },
+  childrenModal: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  buttonContainerModal: {
+    flex: 0.5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#93278f',
+    marginTop: 18,
+    height: Platform.OS === 'android' ? height * 0.08 : width * 0.12,
+    borderRadius: 5,
+    marginRight: 5,
+  },
+  textButtonModal: {
+    color: '#ffffff',
+    fontWeight: 'bold',
+    fontSize: 15,
+  },
 });
 class ProductsDetails extends Component {
   constructor(props) {
@@ -89,6 +110,7 @@ class ProductsDetails extends Component {
       showList: [],
       selected: {},
       lastestProducts: [],
+      isVisible: false,
     };
   }
   async componentDidMount() {
@@ -104,19 +126,30 @@ class ProductsDetails extends Component {
   }
   goToProduct = (item, index) => {
     const product = {...item};
-    console.warn('product', product);
     this.props.navigation.setParams(product);
     this.setState({
       disabledButton: true,
     });
     this.createShowList(product.colors.length);
   };
-  goToCart = async () => {
+  setCart = async () => {
+    this.setState({
+      isVisible: true,
+    });
     const {selected} = this.state;
     const product = this.props.route.params;
     const products = {...product};
-    products.color = this.state.selected.color;
+    products.selectedColor = selected;
+    products.selectedId = selected.id;
     await this.props.setCartProducts(products);
+  };
+  goToCart = () => {
+    this.setState({
+      isVisible: false,
+    });
+    const {selected} = this.state;
+    const product = this.props.route.params;
+    const products = {...product};
     this.props.navigation.navigate('ShoppingCart', {
       products,
       selectedProduct: selected,
@@ -158,7 +191,7 @@ class ProductsDetails extends Component {
     });
   };
   render() {
-    const {disabledButton, showList, lastestProducts} = this.state;
+    const {disabledButton, showList, lastestProducts, isVisible} = this.state;
     const {
       _id,
       price,
@@ -194,7 +227,7 @@ class ProductsDetails extends Component {
               </View>
               <View style={styles.buyButtonContainer}>
                 <Button
-                  onPressButton={this.goToCart}
+                  onPressButton={this.setCart}
                   title={'Comprar'}
                   disabled={disabledButton}
                 />
@@ -249,6 +282,35 @@ class ProductsDetails extends Component {
               </>
             ) : null}
           </View>
+          <CustomModal
+            visible={isVisible}
+            backdrop={() =>
+              this.setState({
+                isVisible: false,
+              })
+            }
+            title={'Has añadido éxitosamente el producto'}
+            message={'Deseas ir a pagar'}
+            iconSuccess={true}>
+            <View style={styles.childrenModal}>
+              <Button
+                onPressButton={() =>
+                  this.setState({
+                    isVisible: false,
+                  })
+                }
+                styleButton={styles.buttonContainerModal}
+                styleText={styles.textButtonModal}
+                title="No"
+              />
+              <Button
+                onPressButton={this.goToCart}
+                styleButton={styles.buttonContainerModal}
+                styleText={styles.textButtonModal}
+                title="Si"
+              />
+            </View>
+          </CustomModal>
         </ScrollView>
         <MenuFooter navigation={this.props.navigation} />
       </SafeAreaView>

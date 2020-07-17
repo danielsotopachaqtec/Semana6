@@ -19,6 +19,11 @@ const cartReducer = (state = initialState, action) => {
         cart: action.data,
         success: true,
       };
+    case Actions.REMOVE_CART_BY_ID_PRODUCTS:
+      return {
+        ...state,
+        cart: action.data,
+      };
     default:
       return state;
   }

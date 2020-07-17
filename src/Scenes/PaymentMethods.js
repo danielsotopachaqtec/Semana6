@@ -37,7 +37,6 @@ const paymentMethods = [
 const PaymentMethods = (props) => {
   const {product, selectedProduct} = props.route.params;
   const goToPay = (item, index) => {
-    console.warn('props.navigation', props.navigation);
     props.navigation.navigate('Checkout', {
       product: product,
       selectedProduct: selectedProduct,

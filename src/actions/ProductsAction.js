@@ -46,8 +46,6 @@ const addLastestProducts = (data) => {
   return async (dispatch, getState) => {
     const products = await getState().productReducer.lastestProducts;
     const exist = products.filter((product) => product._id === data._id);
-
-    console.warn('exist', exist);
     if (exist.length === 0) {
       const lastestProducts = products.concat(data);
       dispatch(setLastestProducts(lastestProducts));

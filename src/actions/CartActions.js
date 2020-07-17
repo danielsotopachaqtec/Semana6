@@ -13,6 +13,29 @@ const getCartSuccess = (data) => {
     data,
   };
 };
+const unsetCartProductById = (data) => {
+  return {
+    type: Actions.REMOVE_CART_BY_ID_PRODUCTS,
+    data,
+  };
+};
+
+const removeCartProductsById = (id) => {
+  return async (dispatch, getState) => {
+    const cartProducts = await getState().cartReducer.cart;
+    // let removeIndex = cartProducts
+    //   .map((product) => {
+    //     return product.selectedId;
+    //   })
+    //   .indexOf(id);
+    // cartProducts.splice(removeIndex, 1);
+    
+    let cart = cartProducts.filter((product) => {
+      return product.selectedId !== id;
+    });
+    dispatch(unsetCartProductById(cart));
+  };
+};
 
 const setCartProduct = (data) => {
   return async (dispatch, getState) => {
@@ -34,4 +57,5 @@ const getCartProducts = () => {
 export default {
   setCartProduct,
   getCartProducts,
+  removeCartProductsById,
 };
